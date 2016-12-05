@@ -1,0 +1,140 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>LIEUX DES BIENS</h2>
+        <ol class="breadcrumb">
+            <li><a>LIEUX</a> </li>
+            <li class="active"><strong>@ViewBag.TITRE</strong> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    @using (Html.BeginForm("SendForm", "Lieux", new { Mode = ViewBag.Mode, Code = ViewBag.Code }, FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "FORM" }))
+    {
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        INTITULE</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="INTITULE" id="INTITULE" required value="@Model.INTITULE">
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        ADRESSE</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="ADRESSE" id="ADRESSE"  value="@Model.ADRESSE">
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" style="padding-left: 0px; text-align: initial;">
+                        CODE POSTAL</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" name="CODE_POSTAL" id="CODE_POSTAL"  value="@Model.CODE_POSTAL">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" style="padding-left: 0px;text-align: initial;">
+                        VILLE</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" name="VILLE" id="VILLE"  value="@Model.VILLE">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" style="padding-left: 0px; text-align: initial;">
+                        REGION</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" name="REGION" id="REGION"  value="@Model.REGION">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" style="padding-left: 0px; text-align: initial;">
+                        PAYS</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" name="PAYS" id="PAYS"  value="@Model.PAYS" >
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" style="text-align: initial; padding-left: 0px;">
+                        TELEPHONE</label>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" name="TELEPHONE" id="TELEPHONE"  value="@Model.TELEPHONE">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" style="text-align: initial; padding-left: 0px;">
+                        LATITUDE</label>
+                    <div class="col-lg-8">
+                        <input type="number" class="form-control" name="LATITUDE" id="LATITUDE"  value="@Model.LATITUDE.ToString().Replace(',', '.')" min="0">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-4 control-label" style="text-align: initial; padding-left: 0px;">
+                        LONGITUDE</label>
+                    <div class="col-lg-8">
+                        <input type="number" class="form-control" name="LONGITUDE" id="LONGITUDE"  value="@Model.LONGITUDE.ToString().Replace(',', '.')" min="0">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row pull-right" style="margin-right: 15px; margin-top: 15px;">
+            <button type="button" class="btn btn-w-m btn-success" id="Valider"><i class="fa fa-check-square-o" aria-hidden="true"></i>Valider</button>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#FORM').validate({
+            rules: {
+                INTITULE: {
+                    required: true
+                },
+                LATITUDE: {
+                    required: true
+                },
+                LONGITUDE: {
+                    required: true
+                }
+            }
+        });
+    });
+    $("#Valider").click(function () {
+        var r = confirm("Voulez vous vraiment valider cette action ?");
+        if (r == true) {
+            $("form").submit();
+        }
+    });
+</script>
+

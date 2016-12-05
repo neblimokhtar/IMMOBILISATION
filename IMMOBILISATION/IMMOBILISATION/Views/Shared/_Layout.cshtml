@@ -1,48 +1,104 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <meta name="viewport" content="width=device-width" />
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-    </head>
-    <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
-                </div>
-                <div class="float-right">
-                    <section id="login">
-                        @Html.Partial("_LoginPartial")
-                    </section>
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </header>
-        <div id="body">
-            @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
-                @RenderBody()
-            </section>
-        </div>
-        <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
-                </div>
-            </div>
-        </footer>
+<head>
+    <meta charset="utf-8" />
+    <title>Gestion des immobilisations</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="~/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="~/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+    <link href="~/css/animate.css" rel="stylesheet">
+    <link href="~/css/style.css" rel="stylesheet">
+    <link href="~/css/MonStyle.css" rel="stylesheet">
+    <script type="text/javascript" src="~/js/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="~/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script type="text/javascript" src="~/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/flot/jquery.flot.js"></script>
+    <script type="text/javascript" src="~/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/flot/jquery.flot.spline.js"></script>
+    <script type="text/javascript" src="~/js/plugins/flot/jquery.flot.resize.js"></script>
+    <script type="text/javascript" src="~/js/plugins/flot/jquery.flot.pie.js"></script>
+    <script type="text/javascript" src="~/js/plugins/peity/jquery.peity.min.js"></script>
+    <script type="text/javascript" src="~/js/demo/peity-demo.js"></script>
+    <script type="text/javascript" src="~/js/inspinia.js"></script>
+    <script type="text/javascript" src="~/js/plugins/pace/pace.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/gritter/jquery.gritter.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <script type="text/javascript" src="~/js/demo/sparkline-demo.js"></script>
+    <script type="text/javascript" src="~/js/plugins/chartJs/Chart.min.js"></script>
+    <script type="text/javascript" src="~/js/plugins/toastr/toastr.min.js"></script>
+    <script src="~/js/jquery.validate.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar-default navbar-static-side" role="navigation" id="NavigationBar">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element" style="text-align: center;">
+                            <span>
+                                <img alt="image" class="img-circle" src="~/img/logo.png" />
+                            </span><a data-toggle="dropdown" class="dropdown-toggle" href="/Home"><span
+                                class="clear"><span class="block m-t-xs"><strong class="font-bold">Petro Confort Logistique & Maintenance</strong> </span></span></a>
+                        </div>
+                        <div class="logo-element">
+                            PCLM
+                        </div>
+                    </li>
+                    <li id="Li-Acceuil"><a href="/Home/Home"><i class="fa fa-area-chart" aria-hidden="true"></i><span
+                        class="nav-label">Tableau de bord</span> </a></li>
 
-        @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
-    </body>
+                    <li><a href="#"><i class="fa fa-university" aria-hidden="true"></i><span class="nav-label">Immobilisation</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="#">Liste immobilisation</a></li>
+                            <li><a href="#">Fiches techniques</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><i class="fa fa-exchange" aria-hidden="true"></i><span class="nav-label">Gestion</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="#">Mouvement</a></li>
+                            <li><a href="#"></a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i><span class="nav-label">Lieux</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="/Lieux/">Lieux des biens</a></li>
+                            <li><a href="/Lieux/Coordonee">Coordonées Géographiques</a></li>
+                            <li><a href="/Lieux/Distance">Distances et Itinéraire</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><i class="fa fa-cogs" aria-hidden="true"></i><span class="nav-label">Paramètres</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="#">Tiers</a></li>
+                            <li><a href="/NatureBien/">Natures Biens</a></li>
+                            <li><a href="#">Famille Biens</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row border-bottom">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i></a>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li><span class="m-r-sm text-muted welcome-message">@User.Identity.Name</span> </li>
+                        <li class="dropdown">
+                                <a class="dropdown-toggle count-info" data-toggle="dropdown"
+                                    href="#"><i class="fa fa-user"></i>
+                                </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            @RenderBody()
+        </div>
+    </div>
+</body>
+@RenderSection("scripts", required: false)
 </html>

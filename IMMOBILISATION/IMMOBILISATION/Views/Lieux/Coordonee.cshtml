@@ -1,0 +1,41 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>COORDONEES GEOGRAPHIQUES</h2>
+        <ol class="breadcrumb">
+            <li><a>LIEUX</a> </li>
+            <li class="active"><strong>COORDONEES GEOGRAPHIQUES</strong> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div id="dvMap" style="width: 900px; height: 700px">
+        </div>
+    </div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCp5k2CvKy62vsK5TpTTVRB2jazKpOXICs"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        var mapOptions = {
+            center: new google.maps.LatLng(34.74161249883173, 10.78857421875),
+            zoom: 5,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+
+        var infoWindow = new google.maps.InfoWindow();
+
+        google.maps.event.addListener(map, 'click', function (e) {
+
+            var location = e.latLng;
+
+            infoWindow.setContent('Latitude: ' + location.lat() + '<br />Longitude: ' + location.lng());
+
+            infoWindow.setPosition(location);
+
+            infoWindow.open(map);
+        });
+    };
+</script>

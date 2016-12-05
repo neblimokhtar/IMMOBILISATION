@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="IMMOBILISATIONModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="IMMOBILISATIONModelStoreContainer">
+          <EntitySet Name="FAMILLES_IMMOBILISATIONS" EntityType="IMMOBILISATIONModel.Store.FAMILLES_IMMOBILISATIONS" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FICHES_TECHNIQUES" EntityType="IMMOBILISATIONModel.Store.FICHES_TECHNIQUES" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="IMMOBILISATIONS" EntityType="IMMOBILISATIONModel.Store.IMMOBILISATIONS" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="LIEUX" EntityType="IMMOBILISATIONModel.Store.LIEUX" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="NATURES_BIENS" EntityType="IMMOBILISATIONModel.Store.NATURES_BIENS" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TIERS" EntityType="IMMOBILISATIONModel.Store.TIERS" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_FAMILLES_IMMOBILISATIONS_NATURES_BIENS" Association="IMMOBILISATIONModel.Store.FK_FAMILLES_IMMOBILISATIONS_NATURES_BIENS">
+            <End Role="NATURES_BIENS" EntitySet="NATURES_BIENS" />
+            <End Role="FAMILLES_IMMOBILISATIONS" EntitySet="FAMILLES_IMMOBILISATIONS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FICHES_TECHNIQUES_IMMOBILISATIONS" Association="IMMOBILISATIONModel.Store.FK_FICHES_TECHNIQUES_IMMOBILISATIONS">
+            <End Role="IMMOBILISATIONS" EntitySet="IMMOBILISATIONS" />
+            <End Role="FICHES_TECHNIQUES" EntitySet="FICHES_TECHNIQUES" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="FAMILLES_IMMOBILISATIONS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FAMILLE" Type="nvarchar" MaxLength="50" />
+          <Property Name="TYPE" Type="nvarchar" MaxLength="50" />
+          <Property Name="INTITULE" Type="nvarchar" MaxLength="50" />
+          <Property Name="NATURE" Type="int" />
+        </EntityType>
+        <EntityType Name="FICHES_TECHNIQUES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="MARQUE" Type="nvarchar(max)" />
+          <Property Name="PHOTO" Type="varbinary(max)" />
+          <Property Name="DESCRIPTION" Type="nvarchar(max)" />
+          <Property Name="COMPOSITION" Type="nvarchar(max)" />
+          <Property Name="LIEU_FABRICATION" Type="nvarchar(max)" />
+          <Property Name="DIMENSION" Type="nvarchar(max)" />
+          <Property Name="COULEUR" Type="nvarchar(max)" />
+          <Property Name="POID" Type="nvarchar(max)" />
+          <Property Name="PUISSANCE" Type="nvarchar(max)" />
+          <Property Name="CONSOMMATION" Type="nvarchar(max)" />
+          <Property Name="IMMOBILISATION" Type="int" />
+        </EntityType>
+        <EntityType Name="IMMOBILISATIONS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="LIEUX">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="INTITULE" Type="nvarchar" MaxLength="50" />
+          <Property Name="ADRESSE" Type="nvarchar(max)" />
+          <Property Name="VILLE" Type="nvarchar" MaxLength="50" />
+          <Property Name="REGION" Type="nvarchar" MaxLength="50" />
+          <Property Name="PAYS" Type="nvarchar" MaxLength="50" />
+          <Property Name="TELEPHONE" Type="nvarchar" MaxLength="50" />
+          <Property Name="LATITUDE" Type="float" Nullable="false" />
+          <Property Name="LONGITUDE" Type="float" Nullable="false" />
+          <Property Name="CODE_POSTAL" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="NATURES_BIENS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="NATURE" Type="nvarchar" MaxLength="50" />
+          <Property Name="TYPE" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TIERS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TYPE" Type="nvarchar" MaxLength="50" />
+          <Property Name="INTITULE" Type="nvarchar" MaxLength="50" />
+          <Property Name="ABREGE" Type="nvarchar" MaxLength="50" />
+          <Property Name="QUALITE" Type="nvarchar" MaxLength="50" />
+          <Property Name="INTERLOCUTEUR" Type="nvarchar" MaxLength="50" />
+          <Property Name="COMMENTAIRE" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_FAMILLES_IMMOBILISATIONS_NATURES_BIENS">
+          <End Role="NATURES_BIENS" Type="IMMOBILISATIONModel.Store.NATURES_BIENS" Multiplicity="0..1" />
+          <End Role="FAMILLES_IMMOBILISATIONS" Type="IMMOBILISATIONModel.Store.FAMILLES_IMMOBILISATIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NATURES_BIENS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FAMILLES_IMMOBILISATIONS">
+              <PropertyRef Name="NATURE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FICHES_TECHNIQUES_IMMOBILISATIONS">
+          <End Role="IMMOBILISATIONS" Type="IMMOBILISATIONModel.Store.IMMOBILISATIONS" Multiplicity="0..1" />
+          <End Role="FICHES_TECHNIQUES" Type="IMMOBILISATIONModel.Store.FICHES_TECHNIQUES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IMMOBILISATIONS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FICHES_TECHNIQUES">
+              <PropertyRef Name="IMMOBILISATION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="IMMOBILISATIONModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ImmobilisationEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="FAMILLES_IMMOBILISATIONS" EntityType="IMMOBILISATIONModel.FAMILLES_IMMOBILISATIONS" />
+          <EntitySet Name="FICHES_TECHNIQUES" EntityType="IMMOBILISATIONModel.FICHES_TECHNIQUES" />
+          <EntitySet Name="LIEUX" EntityType="IMMOBILISATIONModel.LIEUX" />
+          <EntitySet Name="NATURES_BIENS" EntityType="IMMOBILISATIONModel.NATURES_BIENS" />
+          <EntitySet Name="TIERS" EntityType="IMMOBILISATIONModel.TIERS" />
+          <AssociationSet Name="FK_FAMILLES_IMMOBILISATIONS_NATURES_BIENS" Association="IMMOBILISATIONModel.FK_FAMILLES_IMMOBILISATIONS_NATURES_BIENS">
+            <End Role="NATURES_BIENS" EntitySet="NATURES_BIENS" />
+            <End Role="FAMILLES_IMMOBILISATIONS" EntitySet="FAMILLES_IMMOBILISATIONS" />
+          </AssociationSet>
+          <EntitySet Name="IMMOBILISATIONS" EntityType="IMMOBILISATIONModel.IMMOBILISATIONS" />
+          <AssociationSet Name="FK_FICHES_TECHNIQUES_IMMOBILISATIONS" Association="IMMOBILISATIONModel.FK_FICHES_TECHNIQUES_IMMOBILISATIONS">
+            <End Role="IMMOBILISATIONS" EntitySet="IMMOBILISATIONS" />
+            <End Role="FICHES_TECHNIQUES" EntitySet="FICHES_TECHNIQUES" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="FAMILLES_IMMOBILISATIONS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="FAMILLE" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="TYPE" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="INTITULE" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="NATURE" Type="Int32" />
+          <NavigationProperty Name="NATURES_BIENS" Relationship="IMMOBILISATIONModel.FK_FAMILLES_IMMOBILISATIONS_NATURES_BIENS" FromRole="FAMILLES_IMMOBILISATIONS" ToRole="NATURES_BIENS" />
+        </EntityType>
+        <EntityType Name="FICHES_TECHNIQUES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="MARQUE" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="PHOTO" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="COMPOSITION" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="LIEU_FABRICATION" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="DIMENSION" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="COULEUR" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="POID" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="PUISSANCE" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="CONSOMMATION" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="IMMOBILISATION" Type="Int32" />
+          <NavigationProperty Name="IMMOBILISATIONS" Relationship="IMMOBILISATIONModel.FK_FICHES_TECHNIQUES_IMMOBILISATIONS" FromRole="FICHES_TECHNIQUES" ToRole="IMMOBILISATIONS" />
+        </EntityType>
+        <EntityType Name="LIEUX">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="INTITULE" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="ADRESSE" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="VILLE" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="REGION" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="PAYS" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="TELEPHONE" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="LATITUDE" Type="Double" Nullable="false" />
+          <Property Name="LONGITUDE" Type="Double" Nullable="false" />
+          <Property Type="String" Name="CODE_POSTAL" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="NATURES_BIENS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="NATURE" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="TYPE" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="FAMILLES_IMMOBILISATIONS" Relationship="IMMOBILISATIONModel.FK_FAMILLES_IMMOBILISATIONS_NATURES_BIENS" FromRole="NATURES_BIENS" ToRole="FAMILLES_IMMOBILISATIONS" />
+        </EntityType>
+        <EntityType Name="TIERS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="TYPE" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="INTITULE" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="ABREGE" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="QUALITE" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="INTERLOCUTEUR" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="COMMENTAIRE" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_FAMILLES_IMMOBILISATIONS_NATURES_BIENS">
+          <End Role="NATURES_BIENS" Type="IMMOBILISATIONModel.NATURES_BIENS" Multiplicity="0..1" />
+          <End Role="FAMILLES_IMMOBILISATIONS" Type="IMMOBILISATIONModel.FAMILLES_IMMOBILISATIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NATURES_BIENS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FAMILLES_IMMOBILISATIONS">
+              <PropertyRef Name="NATURE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="IMMOBILISATIONS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="FICHES_TECHNIQUES" Relationship="IMMOBILISATIONModel.FK_FICHES_TECHNIQUES_IMMOBILISATIONS" FromRole="IMMOBILISATIONS" ToRole="FICHES_TECHNIQUES" />
+        </EntityType>
+        <Association Name="FK_FICHES_TECHNIQUES_IMMOBILISATIONS">
+          <End Type="IMMOBILISATIONModel.IMMOBILISATIONS" Role="IMMOBILISATIONS" Multiplicity="0..1" />
+          <End Type="IMMOBILISATIONModel.FICHES_TECHNIQUES" Role="FICHES_TECHNIQUES" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IMMOBILISATIONS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FICHES_TECHNIQUES">
+              <PropertyRef Name="IMMOBILISATION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="IMMOBILISATIONModelStoreContainer" CdmEntityContainer="ImmobilisationEntities">
+          <EntitySetMapping Name="FAMILLES_IMMOBILISATIONS">
+            <EntityTypeMapping TypeName="IMMOBILISATIONModel.FAMILLES_IMMOBILISATIONS">
+              <MappingFragment StoreEntitySet="FAMILLES_IMMOBILISATIONS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FAMILLE" ColumnName="FAMILLE" />
+                <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+                <ScalarProperty Name="INTITULE" ColumnName="INTITULE" />
+                <ScalarProperty Name="NATURE" ColumnName="NATURE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FICHES_TECHNIQUES">
+            <EntityTypeMapping TypeName="IMMOBILISATIONModel.FICHES_TECHNIQUES">
+              <MappingFragment StoreEntitySet="FICHES_TECHNIQUES">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MARQUE" ColumnName="MARQUE" />
+                <ScalarProperty Name="PHOTO" ColumnName="PHOTO" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="COMPOSITION" ColumnName="COMPOSITION" />
+                <ScalarProperty Name="LIEU_FABRICATION" ColumnName="LIEU_FABRICATION" />
+                <ScalarProperty Name="DIMENSION" ColumnName="DIMENSION" />
+                <ScalarProperty Name="COULEUR" ColumnName="COULEUR" />
+                <ScalarProperty Name="POID" ColumnName="POID" />
+                <ScalarProperty Name="PUISSANCE" ColumnName="PUISSANCE" />
+                <ScalarProperty Name="CONSOMMATION" ColumnName="CONSOMMATION" />
+                <ScalarProperty Name="IMMOBILISATION" ColumnName="IMMOBILISATION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LIEUX">
+            <EntityTypeMapping TypeName="IMMOBILISATIONModel.LIEUX">
+              <MappingFragment StoreEntitySet="LIEUX">
+                <ScalarProperty Name="CODE_POSTAL" ColumnName="CODE_POSTAL" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="INTITULE" ColumnName="INTITULE" />
+                <ScalarProperty Name="ADRESSE" ColumnName="ADRESSE" />
+                <ScalarProperty Name="VILLE" ColumnName="VILLE" />
+                <ScalarProperty Name="REGION" ColumnName="REGION" />
+                <ScalarProperty Name="PAYS" ColumnName="PAYS" />
+                <ScalarProperty Name="TELEPHONE" ColumnName="TELEPHONE" />
+                <ScalarProperty Name="LATITUDE" ColumnName="LATITUDE" />
+                <ScalarProperty Name="LONGITUDE" ColumnName="LONGITUDE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NATURES_BIENS">
+            <EntityTypeMapping TypeName="IMMOBILISATIONModel.NATURES_BIENS">
+              <MappingFragment StoreEntitySet="NATURES_BIENS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NATURE" ColumnName="NATURE" />
+                <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TIERS">
+            <EntityTypeMapping TypeName="IMMOBILISATIONModel.TIERS">
+              <MappingFragment StoreEntitySet="TIERS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+                <ScalarProperty Name="INTITULE" ColumnName="INTITULE" />
+                <ScalarProperty Name="ABREGE" ColumnName="ABREGE" />
+                <ScalarProperty Name="QUALITE" ColumnName="QUALITE" />
+                <ScalarProperty Name="INTERLOCUTEUR" ColumnName="INTERLOCUTEUR" />
+                <ScalarProperty Name="COMMENTAIRE" ColumnName="COMMENTAIRE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IMMOBILISATIONS">
+            <EntityTypeMapping TypeName="IMMOBILISATIONModel.IMMOBILISATIONS">
+              <MappingFragment StoreEntitySet="IMMOBILISATIONS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
