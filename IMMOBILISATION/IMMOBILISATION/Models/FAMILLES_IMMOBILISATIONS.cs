@@ -11,15 +11,22 @@ namespace IMMOBILISATION.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class FAMILLES_IMMOBILISATIONS
     {
+        public FAMILLES_IMMOBILISATIONS()
+        {
+            this.IMMOBILISATIONS = new HashSet<IMMOBILISATIONS>();
+        }
+
         public int ID { get; set; }
         public string FAMILLE { get; set; }
         public string TYPE { get; set; }
         public string INTITULE { get; set; }
         public Nullable<int> NATURE { get; set; }
-    
+        [ForeignKey("NATURE")]
         public virtual NATURES_BIENS NATURES_BIENS { get; set; }
+        public virtual ICollection<IMMOBILISATIONS> IMMOBILISATIONS { get; set; }
     }
 }

@@ -1,0 +1,223 @@
+﻿<link href="~/css/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="~/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
+<link href="~/css/switchery.css" rel="stylesheet" />
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>TIERS</h2>
+        <ol class="breadcrumb">
+            <li><a>TIERS</a> </li>
+            <li class="active"><strong>@ViewBag.TITRE</strong> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    @using (Html.BeginForm("SendForm", "Immobilisation", new { Mode = ViewBag.Mode, Code = ViewBag.Code }, FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "FORM" }))
+    {
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        TYPE</label>
+                    <div class="col-lg-10">
+                        <select class="form-control" name="TYPE" id="TYPE">
+                            <option value="BIEN">BIEN</option>
+                            <option value="CREDIT BAIL">CREDIT BAIL</option>
+                            <option value="LOCATION">LOCATION</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        DESIGNATION</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="DESIGNATION" id="DESIGNATION" value="@Model.DESIGNATION">
+                    </div>
+                </div>
+            </div>
+
+        </div> 
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        VALEUR ACQUISITION (TTC)</label>
+                    <div class="col-lg-10">
+                        <input type="number" class="form-control" name="VALEUR_ACQUISITION_TTC" id="VALEUR_ACQUISITION_TTC" value="@Model.VALEUR_ACQUISITION_TTC.ToString().Replace(',', '.')">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="text-align: initial; padding-left: 0px;">
+                        CODE A BARRE</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="CODE_A_BARRE" id="CODE_A_BARRE" value="@Model.CODE_A_BARRE">
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="text-align: initial; padding-left: 0px;">
+                        FAMILLE</label>
+                    <div class="col-lg-10">
+                        <select class="form-control" name="FAMILLE" id="FAMILLE">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="text-align: initial; padding-left: 0px;">
+                        FOURNISSEUR</label>
+                    <div class="col-lg-10">
+                        <select class="form-control" name="FOURNISSEUR" id="FOURNISSEUR">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="text-align: initial; padding-left: 0px;">
+                        DATE AQUISITION</label>
+                    <div class="col-lg-10">
+                        <div class="input-group date">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input type="text" class="form-control" name="DATE_AQUISITION" id="DATE_AQUISITION" required value="@Model.DATE_AQUISITION.ToShortDateString()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="text-align: initial; padding-left: 0px;">
+                        DATE MISE EN SERVICE</label>
+                    <div class="col-lg-10">
+                        <div class="input-group date">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input type="text" class="form-control" name="DATE_MISE_EN_SERVICE" id="DATE_MISE_EN_SERVICE" required value="@Model.DATE_MISE_EN_SERVICE.ToShortDateString()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        DISPONIBILITE</label>
+                    <div class="col-sm-10">
+                        <input type="checkbox" class="js-switch" checked="@(Model.DISPONIBILITE)" name="DISPONIBILITE" value="@(Model.DISPONIBILITE)" id="DISPONIBILITE"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="MyAction" name="MyAction" value="Nothing" />
+
+        <div class="row pull-right" style="margin-right: 15px; margin-top: 15px;">
+            <button type="button" class="btn btn-w-m btn-success" id="Valider">
+                <i class="fa fa-check-square-o" aria-hidden="true" style="margin-right: 5px;"></i>Valider et Quitter</button>
+            <button type="button" class="btn btn-w-m btn-success" id="ValiderFiche">
+                <i class="fa fa-check-square-o" aria-hidden="true" style="margin-right: 5px;"></i>Valider et Editer Fiche Technique</button>
+
+        </div>
+    }
+</div>
+<script src="~/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+<script src="~/js/select2.min.js" type="text/javascript"></script>
+<script src="~/js/switchery.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var elem = document.querySelector('.js-switch');
+        var switchery = new Switchery(elem, { color: '#1AB394' });
+
+        var Mode = "@ViewBag.Mode";
+        var TYPE = "@Model.TYPE";
+        var FAMILLE = "@Model.TYPE";
+        var FOURNISSEUR = "@Model.FOURNISSEUR";
+
+        if (Mode == "Edit") {
+            $("#TYPE option").filter(function () {
+                return $(this).text() == TYPE;
+            }).prop('selected', true);
+        }
+        //Select Famille
+        $("#FAMILLE").select2();
+        $.ajax({
+            type: 'POST',
+            url: "/Immobilisation/GetAllFamille",
+            success: function (response) {
+                $.each(response, function (i, item) {
+                    $('#FAMILLE').append($('<option>', {
+                        value: item.ID,
+                        text: item.FAMILLE
+                    }));
+                    if (Mode == "Edit") {
+                        $("#FAMILLE").val(FAMILLE).trigger("change");
+                        $("#FAMILLE").attr("disabled", true);
+
+                    }
+                });
+            }
+        });
+        //Select Fournisseur
+        $("#FOURNISSEUR").select2();
+        $.ajax({
+            type: 'POST',
+            url: "/Immobilisation/GetAllFournisseur",
+            success: function (response) {
+                $.each(response, function (i, item) {
+                    $('#FOURNISSEUR').append($('<option>', {
+                        value: item.ID,
+                        text: item.INTITULE + " (" + item.ABREGE + ")"
+                    }));
+                    if (Mode == "Edit") {
+                        $("#FOURNISSEUR").val(FOURNISSEUR).trigger("change");
+                    }
+                });
+            }
+        });
+        //DATE
+        $("#DATE_AQUISITION").datepicker({
+            format: 'dd/mm/yyyy'
+        });
+        $("#DATE_MISE_EN_SERVICE").datepicker({
+            format: 'dd/mm/yyyy'
+        });
+        //Form
+        $('#FORM').validate({
+            rules: {
+                TYPE: {
+                    required: true
+                },
+                INTITULE: {
+                    required: true
+                },
+            }
+        });
+    });
+    $("#Valider").click(function () {
+        var r = confirm("Voulez vous vraiment valider cette action ?");
+        if (r == true) {
+            $("form").submit();
+        }
+    });
+    $("#ValiderFiche").click(function () {
+        var r = confirm("Voulez vous vraiment valider cette action ?");
+        if (r == true) {
+            $("#MyAction").val("Fiche");
+            $("form").submit();
+        }
+    });
+</script>
+

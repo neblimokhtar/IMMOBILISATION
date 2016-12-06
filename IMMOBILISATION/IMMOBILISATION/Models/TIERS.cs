@@ -14,6 +14,11 @@ namespace IMMOBILISATION.Models
     
     public partial class TIERS
     {
+        public TIERS()
+        {
+            this.IMMOBILISATIONS = new HashSet<IMMOBILISATIONS>();
+        }
+    
         public int ID { get; set; }
         public string TYPE { get; set; }
         public string INTITULE { get; set; }
@@ -21,5 +26,7 @@ namespace IMMOBILISATION.Models
         public string QUALITE { get; set; }
         public string INTERLOCUTEUR { get; set; }
         public string COMMENTAIRE { get; set; }
+    
+        public virtual ICollection<IMMOBILISATIONS> IMMOBILISATIONS { get; set; }
     }
 }

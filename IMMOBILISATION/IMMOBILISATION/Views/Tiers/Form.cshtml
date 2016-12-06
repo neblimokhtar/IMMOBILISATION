@@ -1,0 +1,116 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>TIERS</h2>
+        <ol class="breadcrumb">
+            <li><a>TIERS</a> </li>
+            <li class="active"><strong>@ViewBag.TITRE</strong> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    @using (Html.BeginForm("SendForm", "Tiers", new { Mode = ViewBag.Mode, Code = ViewBag.Code }, FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "FORM" }))
+    {
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        TYPE</label>
+                    <div class="col-lg-10">
+                        <select class="form-control" name="TYPE" id="TYPE">
+                            <option value="CLIENTS">CLIENTS</option>
+                            <option value="FOURNISSEURS">FOURNISSEURS</option>
+                            <option value="TRANSPORTEURS">TRANSPORTEURS</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        INTITULE</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="INTITULE" id="INTITULE" value="@Model.INTITULE">
+                    </div>
+                </div>
+            </div>
+
+        </div> 
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        ABREGE</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="ABREGE" id="ABREGE" value="@Model.ABREGE">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="text-align: initial; padding-left: 0px;">
+                        QUALITE</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="QUALITE" id="QUALITE" value="@Model.QUALITE">
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        INTERLOCUTEUR</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="INTERLOCUTEUR" id="INTERLOCUTEUR" value="@Model.INTERLOCUTEUR">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="text-align: initial; padding-left: 0px;">
+                        COMMENTAIRE</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="COMMENTAIRE" id="COMMENTAIRE" value="@Model.COMMENTAIRE">
+                    </div>
+                </div>
+            </div>
+        </div> 
+        
+        <div class="row pull-right" style="margin-right: 15px; margin-top: 15px;">
+            <button type="button" class="btn btn-w-m btn-success" id="Valider"><i class="fa fa-check-square-o" aria-hidden="true"></i>Valider</button>
+        </div>
+    }
+</div>
+<script src="~/js/select2.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var Mode = "@ViewBag.Mode";
+        var TYPE = "@Model.TYPE";
+        if (Mode == "Edit") {
+            $("#TYPE option").filter(function () {
+                return $(this).text() == TYPE;
+            }).prop('selected', true);
+        }
+        $('#FORM').validate({
+            rules: {
+                TYPE: {
+                    required: true
+                },
+                INTITULE: {
+                    required: true
+                },
+            }
+        });
+    });
+    $("#Valider").click(function () {
+        var r = confirm("Voulez vous vraiment valider cette action ?");
+        if (r == true) {
+            $("form").submit();
+        }
+    });
+</script>
+

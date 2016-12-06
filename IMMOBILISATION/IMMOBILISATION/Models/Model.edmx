@@ -20,6 +20,14 @@
             <End Role="IMMOBILISATIONS" EntitySet="IMMOBILISATIONS" />
             <End Role="FICHES_TECHNIQUES" EntitySet="FICHES_TECHNIQUES" />
           </AssociationSet>
+          <AssociationSet Name="FK_IMMOBILISATIONS_FAMILLES_IMMOBILISATIONS" Association="IMMOBILISATIONModel.Store.FK_IMMOBILISATIONS_FAMILLES_IMMOBILISATIONS">
+            <End Role="FAMILLES_IMMOBILISATIONS" EntitySet="FAMILLES_IMMOBILISATIONS" />
+            <End Role="IMMOBILISATIONS" EntitySet="IMMOBILISATIONS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IMMOBILISATIONS_TIERS" Association="IMMOBILISATIONModel.Store.FK_IMMOBILISATIONS_TIERS">
+            <End Role="TIERS" EntitySet="TIERS" />
+            <End Role="IMMOBILISATIONS" EntitySet="IMMOBILISATIONS" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="FAMILLES_IMMOBILISATIONS">
           <Key>
@@ -53,6 +61,16 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TYPE" Type="nvarchar" MaxLength="50" />
+          <Property Name="CODE" Type="nvarchar" MaxLength="50" />
+          <Property Name="DESIGNATION" Type="nvarchar(max)" />
+          <Property Name="VALEUR_ACQUISITION_TTC" Type="float" Nullable="false" />
+          <Property Name="DATE_AQUISITION" Type="datetime" Nullable="false" />
+          <Property Name="DATE_MISE_EN_SERVICE" Type="datetime" Nullable="false" />
+          <Property Name="FOURNISSEUR" Type="int" />
+          <Property Name="FAMILLE" Type="int" />
+          <Property Name="CODE_A_BARRE" Type="nvarchar(max)" />
+          <Property Name="DISPONIBILITE" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="LIEUX">
           <Key>
@@ -113,6 +131,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_IMMOBILISATIONS_FAMILLES_IMMOBILISATIONS">
+          <End Role="FAMILLES_IMMOBILISATIONS" Type="IMMOBILISATIONModel.Store.FAMILLES_IMMOBILISATIONS" Multiplicity="0..1" />
+          <End Role="IMMOBILISATIONS" Type="IMMOBILISATIONModel.Store.IMMOBILISATIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAMILLES_IMMOBILISATIONS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IMMOBILISATIONS">
+              <PropertyRef Name="FAMILLE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IMMOBILISATIONS_TIERS">
+          <End Role="TIERS" Type="IMMOBILISATIONModel.Store.TIERS" Multiplicity="0..1" />
+          <End Role="IMMOBILISATIONS" Type="IMMOBILISATIONModel.Store.IMMOBILISATIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIERS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IMMOBILISATIONS">
+              <PropertyRef Name="FOURNISSEUR" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -132,6 +174,14 @@
             <End Role="IMMOBILISATIONS" EntitySet="IMMOBILISATIONS" />
             <End Role="FICHES_TECHNIQUES" EntitySet="FICHES_TECHNIQUES" />
           </AssociationSet>
+          <AssociationSet Name="FK_IMMOBILISATIONS_FAMILLES_IMMOBILISATIONS" Association="IMMOBILISATIONModel.FK_IMMOBILISATIONS_FAMILLES_IMMOBILISATIONS">
+            <End Role="FAMILLES_IMMOBILISATIONS" EntitySet="FAMILLES_IMMOBILISATIONS" />
+            <End Role="IMMOBILISATIONS" EntitySet="IMMOBILISATIONS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IMMOBILISATIONS_TIERS" Association="IMMOBILISATIONModel.FK_IMMOBILISATIONS_TIERS">
+            <End Role="TIERS" EntitySet="TIERS" />
+            <End Role="IMMOBILISATIONS" EntitySet="IMMOBILISATIONS" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="FAMILLES_IMMOBILISATIONS">
           <Key>
@@ -143,6 +193,7 @@
           <Property Name="INTITULE" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="NATURE" Type="Int32" />
           <NavigationProperty Name="NATURES_BIENS" Relationship="IMMOBILISATIONModel.FK_FAMILLES_IMMOBILISATIONS_NATURES_BIENS" FromRole="FAMILLES_IMMOBILISATIONS" ToRole="NATURES_BIENS" />
+          <NavigationProperty Name="IMMOBILISATIONS" Relationship="IMMOBILISATIONModel.FK_IMMOBILISATIONS_FAMILLES_IMMOBILISATIONS" FromRole="FAMILLES_IMMOBILISATIONS" ToRole="IMMOBILISATIONS" />
         </EntityType>
         <EntityType Name="FICHES_TECHNIQUES">
           <Key>
@@ -197,6 +248,7 @@
           <Property Name="QUALITE" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="INTERLOCUTEUR" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="COMMENTAIRE" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="IMMOBILISATIONS" Relationship="IMMOBILISATIONModel.FK_IMMOBILISATIONS_TIERS" FromRole="TIERS" ToRole="IMMOBILISATIONS" />
         </EntityType>
         <Association Name="FK_FAMILLES_IMMOBILISATIONS_NATURES_BIENS">
           <End Role="NATURES_BIENS" Type="IMMOBILISATIONModel.NATURES_BIENS" Multiplicity="0..1" />
@@ -216,6 +268,18 @@
           </Key>
           <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="FICHES_TECHNIQUES" Relationship="IMMOBILISATIONModel.FK_FICHES_TECHNIQUES_IMMOBILISATIONS" FromRole="IMMOBILISATIONS" ToRole="FICHES_TECHNIQUES" />
+          <Property Type="String" Name="TYPE" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CODE" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="DESIGNATION" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Double" Name="VALEUR_ACQUISITION_TTC" Nullable="false" />
+          <Property Type="DateTime" Name="DATE_AQUISITION" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="DATE_MISE_EN_SERVICE" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="FOURNISSEUR" />
+          <Property Type="Int32" Name="FAMILLE" />
+          <Property Type="String" Name="CODE_A_BARRE" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="DISPONIBILITE" Nullable="false" />
+          <NavigationProperty Name="FAMILLES_IMMOBILISATIONS" Relationship="IMMOBILISATIONModel.FK_IMMOBILISATIONS_FAMILLES_IMMOBILISATIONS" FromRole="IMMOBILISATIONS" ToRole="FAMILLES_IMMOBILISATIONS" />
+          <NavigationProperty Name="TIERS" Relationship="IMMOBILISATIONModel.FK_IMMOBILISATIONS_TIERS" FromRole="IMMOBILISATIONS" ToRole="TIERS" />
         </EntityType>
         <Association Name="FK_FICHES_TECHNIQUES_IMMOBILISATIONS">
           <End Type="IMMOBILISATIONModel.IMMOBILISATIONS" Role="IMMOBILISATIONS" Multiplicity="0..1" />
@@ -226,6 +290,30 @@
             </Principal>
             <Dependent Role="FICHES_TECHNIQUES">
               <PropertyRef Name="IMMOBILISATION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IMMOBILISATIONS_FAMILLES_IMMOBILISATIONS">
+          <End Type="IMMOBILISATIONModel.FAMILLES_IMMOBILISATIONS" Role="FAMILLES_IMMOBILISATIONS" Multiplicity="0..1" />
+          <End Type="IMMOBILISATIONModel.IMMOBILISATIONS" Role="IMMOBILISATIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FAMILLES_IMMOBILISATIONS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IMMOBILISATIONS">
+              <PropertyRef Name="FAMILLE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IMMOBILISATIONS_TIERS">
+          <End Type="IMMOBILISATIONModel.TIERS" Role="TIERS" Multiplicity="0..1" />
+          <End Type="IMMOBILISATIONModel.IMMOBILISATIONS" Role="IMMOBILISATIONS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIERS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IMMOBILISATIONS">
+              <PropertyRef Name="FOURNISSEUR" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -305,6 +393,16 @@
           <EntitySetMapping Name="IMMOBILISATIONS">
             <EntityTypeMapping TypeName="IMMOBILISATIONModel.IMMOBILISATIONS">
               <MappingFragment StoreEntitySet="IMMOBILISATIONS">
+                <ScalarProperty Name="DISPONIBILITE" ColumnName="DISPONIBILITE" />
+                <ScalarProperty Name="CODE_A_BARRE" ColumnName="CODE_A_BARRE" />
+                <ScalarProperty Name="FAMILLE" ColumnName="FAMILLE" />
+                <ScalarProperty Name="FOURNISSEUR" ColumnName="FOURNISSEUR" />
+                <ScalarProperty Name="DATE_MISE_EN_SERVICE" ColumnName="DATE_MISE_EN_SERVICE" />
+                <ScalarProperty Name="DATE_AQUISITION" ColumnName="DATE_AQUISITION" />
+                <ScalarProperty Name="VALEUR_ACQUISITION_TTC" ColumnName="VALEUR_ACQUISITION_TTC" />
+                <ScalarProperty Name="DESIGNATION" ColumnName="DESIGNATION" />
+                <ScalarProperty Name="CODE" ColumnName="CODE" />
+                <ScalarProperty Name="TYPE" ColumnName="TYPE" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

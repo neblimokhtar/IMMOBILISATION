@@ -3,10 +3,10 @@
 <link href="~/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>NATURES DES BIENS</h2>
+        <h2>FAMILLES DES BIENS</h2>
         <ol class="breadcrumb">
-            <li><a>NATURES DES BIENS</a> </li>
-            <li class="active"><strong>LISTE DES NATURES DES BIENS</strong> </li>
+            <li><a>FAMILLES DES BIENS</a> </li>
+            <li class="active"><strong>LISTE DES FAMILLES DES BIENS</strong> </li>
         </ol>
     </div>
     <div class="col-lg-2">
@@ -17,9 +17,9 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title" style="padding-top: 4px;">
-                    <h5 style="padding-top: 10px;">NATURES DES BIENS</h5>
+                    <h5 style="padding-top: 10px;">FAMILLES DES BIENS</h5>
                     <div class="ibox-tools">
-                        <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("Form", "NatureBien", new { Mode = "Create", Code = "-1" }, null)'">
+                        <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("Form", "FamilleBien", new { Mode = "Create", Code = "-1" }, null)'">
                             <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Ajouter</span></button>
                         <button class="btn btn-primary " type="button" id="PrintBtn">
                             <i class="fa fa-print" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Imprimer</span></button>
@@ -30,9 +30,13 @@
                         id="Tableau">
                         <thead>
                             <tr>
-                                <th>NATURE
+                                <th>FAMILLE
                                 </th>
                                 <th>TYPE
+                                </th>
+                                <th>INTITULE
+                                </th>
+                                <th>NATURE BIEN
                                 </th>
                             </tr>
                         </thead>
@@ -42,10 +46,16 @@
 
                                 <tr id="@item.ID">
                                     <td>
-                                        @item.NATURE
+                                        @item.FAMILLE
                                     </td>
                                     <td>
                                         @item.TYPE
+                                    </td>
+                                    <td>
+                                        @item.INTITULE
+                                    </td>
+                                    <td>
+                                        @item.NATURES_BIENS.NATURE
                                     </td>
                                 </tr>
                             }
@@ -97,12 +107,12 @@
         $(".custom-menu").hide(100);
     });
     function Btn_Edit_click(MyValue) {
-        window.location.href = "/NatureBien/Form?Code=" + MyValue + "&Mode=Edit";
+        window.location.href = "/FamilleBien/Form?Code=" + MyValue + "&Mode=Edit";
     }
     function Btn_Delete_click(MyValue) {
-        var r = confirm("Voulez vous vraiment supprimer cette nature ?");
+        var r = confirm("Voulez vous vraiment supprimer cette famille ?");
         if (r == true) {
-            window.location.href = "/NatureBien/Delete?Code=" + MyValue;
+            window.location.href = "/FamilleBien/Delete?Code=" + MyValue;
         }
     }
     $(document).ready(function () {

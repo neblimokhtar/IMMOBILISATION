@@ -1,0 +1,113 @@
+﻿<link href="~/css/select2.min.css" rel="stylesheet" type="text/css" />
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>FAMILLES DES BIENS</h2>
+        <ol class="breadcrumb">
+            <li><a>FAMILLES DES BIENS</a> </li>
+            <li class="active"><strong>@ViewBag.TITRE</strong> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    @using (Html.BeginForm("SendForm", "FamilleBien", new { Mode = ViewBag.Mode, Code = ViewBag.Code }, FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "FORM" }))
+    {
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        FAMILLE</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="FAMILLE" id="FAMILLE" value="@Model.FAMILLE">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        TYPE</label>
+                    <div class="col-lg-10">
+                        <select class="form-control" name="TYPE" id="TYPE">
+                            <option value="DETAIL">DETAIL</option>
+                            <option value="TOTAL">TOTAL</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        INTITULE</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="INTITULE" id="INTITULE" value="@Model.INTITULE">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="text-align: initial; padding-left: 0px;">
+                        NATURE</label>
+                    <div class="col-lg-10">
+                        <select class="form-control" name="NATURE" id="NATURE">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        
+        <div class="row pull-right" style="margin-right: 15px; margin-top: 15px;">
+            <button type="button" class="btn btn-w-m btn-success" id="Valider"><i class="fa fa-check-square-o" aria-hidden="true"></i>Valider</button>
+        </div>
+    }
+</div>
+<script src="~/js/select2.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var Mode = "@ViewBag.Mode";
+        var NATURE = "@Model.NATURE";
+        var TYPE = "@Model.TYPE";
+        if (Mode == "Edit") {
+            $("#TYPE option").filter(function () {
+                return $(this).text() == TYPE;
+            }).prop('selected', true);
+        }
+        $("#NATURE").select2();
+        $.ajax({
+            type: 'POST',
+            url: "/FamilleBien/GetAllNature",
+            success: function (response) {
+                $.each(response, function (i, item) {
+                    $('#NATURE').append($('<option>', {
+                        value: item.ID,
+                        text: item.NATURE
+                    }));
+                    if (Mode == "Edit") {
+                        $("#NATURE").val(NATURE).trigger("change");
+                    }
+                });
+            }
+        });
+        $('#FORM').validate({
+            rules: {
+                FAMILLE: {
+                    required: true
+                },
+                NATURE: {
+                    required: true
+                },
+            }
+        });
+    });
+    $("#Valider").click(function () {
+        var r = confirm("Voulez vous vraiment valider cette action ?");
+        if (r == true) {
+            $("form").submit();
+        }
+    });
+</script>
+

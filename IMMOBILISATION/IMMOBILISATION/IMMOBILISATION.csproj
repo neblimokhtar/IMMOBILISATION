@@ -184,9 +184,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FamilleBienController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ImmobilisationController.cs" />
     <Compile Include="Controllers\LieuxController.cs" />
     <Compile Include="Controllers\NatureBienController.cs" />
+    <Compile Include="Controllers\TiersController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -553,6 +556,12 @@
     <Content Include="Views\Lieux\Distance.cshtml" />
     <Content Include="Views\NatureBien\Index.cshtml" />
     <Content Include="Views\NatureBien\Form.cshtml" />
+    <Content Include="Views\FamilleBien\Index.cshtml" />
+    <Content Include="Views\FamilleBien\Form.cshtml" />
+    <Content Include="Views\Tiers\Index.cshtml" />
+    <Content Include="Views\Tiers\Form.cshtml" />
+    <Content Include="Views\Immobilisation\Index.cshtml" />
+    <Content Include="Views\Immobilisation\Form.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
