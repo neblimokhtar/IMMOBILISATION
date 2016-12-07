@@ -40,6 +40,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="QRCoder, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.2.2\lib\net40\QRCoder.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -115,6 +119,10 @@
     <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.2.2\lib\net40\UnityEngine.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -195,6 +203,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\BarCode39.cs" />
     <Compile Include="Models\FAMILLES_IMMOBILISATIONS.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -286,6 +295,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="css\animate.css" />
+    <Content Include="css\bootstrap-colorpicker.min.css" />
     <Content Include="css\bootstrap-datepicker3.min.css" />
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\Monstyle.css" />
@@ -338,14 +348,41 @@
     <Content Include="font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="font-awesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="fonts\free3of9.txt" />
+    <Content Include="fonts\license.txt" />
     <Content Include="Global.asax" />
     <EntityDeploy Include="Models\Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="img\alpha-horizontal.png" />
+    <Content Include="img\alpha.png" />
+    <Content Include="img\bootstrap-colorpicker\alpha-horizontal.png" />
+    <Content Include="img\bootstrap-colorpicker\alpha.png" />
+    <Content Include="img\bootstrap-colorpicker\hue-horizontal.png" />
+    <Content Include="img\bootstrap-colorpicker\hue.png" />
+    <Content Include="img\bootstrap-colorpicker\saturation.png" />
+    <Content Include="img\hue-horizontal.png" />
+    <Content Include="img\hue.png" />
+    <Content Include="img\NotAvailable.jpg" />
+    <Content Include="img\saturation.png" />
+    <Content Include="js\bootstrap-colorpicker.min.js" />
+    <Content Include="js\jquery.browser.min.js" />
     <Content Include="Models\Model.edmx.diagram">
       <DependentUpon>Model.edmx</DependentUpon>
     </Content>
+    <Content Include="fonts\Englisharial.eot" />
+    <Content Include="fonts\Englisharial.ttf" />
+    <Content Include="fonts\fre3of9x.ttf" />
+    <Content Include="fonts\FREE3OF9.TTF" />
+    <Content Include="fonts\frscript.eot" />
+    <Content Include="fonts\frscript.TTF" />
+    <Content Include="fonts\Hindimfdev010.eot" />
+    <Content Include="fonts\Hindimfdev010.ttf" />
+    <Content Include="fonts\MARmith0.eot" />
+    <Content Include="fonts\MARmith0.ttf" />
+    <Content Include="fonts\mfdev010.eot" />
+    <Content Include="fonts\mfdev010.ttf" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="img\a1.jpg" />
     <Content Include="img\a2.jpg" />
@@ -562,6 +599,8 @@
     <Content Include="Views\Tiers\Form.cshtml" />
     <Content Include="Views\Immobilisation\Index.cshtml" />
     <Content Include="Views\Immobilisation\Form.cshtml" />
+    <Content Include="Views\Immobilisation\EditerFicheTechnique.cshtml" />
+    <Content Include="Views\Immobilisation\FicheTechnique.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

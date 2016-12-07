@@ -135,6 +135,8 @@
         Modifier</li>
     <li data-action="Delete"><i class="fa fa-trash" style="margin-right: 3px;"></i>
         Supprimer</li>
+    <li data-action="Fiche"><i class="fa fa-clipboard" style="margin-right: 3px;"></i>
+        Fiche Technique</li>
 </ul>
 <script type="text/javascript" src="~/js/plugins/dataTables/jquery.dataTables.js"></script>
 <script type="text/javascript" src="~/js/plugins/dataTables/dataTables.bootstrap.js"></script>
@@ -174,11 +176,16 @@
         switch ($(this).attr("data-action")) {
             case "Delete": Btn_Delete_click(MyValue); break;
             case "Edit": Btn_Edit_click(MyValue); break;
+            case "Fiche": Btn_Fiche_click(MyValue); break;
+
         }
         $(".custom-menu").hide(100);
     });
     function Btn_Edit_click(MyValue) {
         window.location.href = "/Immobilisation/Form?Code=" + MyValue + "&Mode=Edit";
+    }
+    function Btn_Fiche_click(MyValue) {
+        window.location.href = "/Immobilisation/FicheTechnique?Code=" + MyValue;
     }
     function Btn_Delete_click(MyValue) {
         var r = confirm("Voulez vous vraiment supprimer ce tiers ?");

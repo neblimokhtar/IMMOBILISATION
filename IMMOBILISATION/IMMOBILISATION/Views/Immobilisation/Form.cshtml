@@ -71,6 +71,7 @@
                     <div class="col-lg-10">
                         <select class="form-control" name="FAMILLE" id="FAMILLE">
                         </select>
+                        <input type="hidden" name="FAMILLE" value="" id="FAMILLEH" />
                     </div>
                 </div>
             </div>
@@ -143,7 +144,7 @@
 
         var Mode = "@ViewBag.Mode";
         var TYPE = "@Model.TYPE";
-        var FAMILLE = "@Model.TYPE";
+        var FAMILLE = "@Model.FAMILLE";
         var FOURNISSEUR = "@Model.FOURNISSEUR";
 
         if (Mode == "Edit") {
@@ -165,7 +166,8 @@
                     if (Mode == "Edit") {
                         $("#FAMILLE").val(FAMILLE).trigger("change");
                         $("#FAMILLE").attr("disabled", true);
-
+                        $("#FAMILLEH").val(FAMILLE);
+                        
                     }
                 });
             }
@@ -203,6 +205,9 @@
                 INTITULE: {
                     required: true
                 },
+                CODE_A_BARRE: {
+                    required: true
+                }
             }
         });
     });
