@@ -31,5 +31,7 @@ namespace IMMOBILISATION.Models
         public DbSet<NATURES_BIENS> NATURES_BIENS { get; set; }
         public DbSet<TIERS> TIERS { get; set; }
         public DbSet<IMMOBILISATIONS> IMMOBILISATIONS { get; set; }
+        public DbSet<DETAILS_MOUVEMENTS> DETAILS_MOUVEMENTS { get; set; }
+        public DbSet<MOUVEMENTS> MOUVEMENTS { get; set; }
     }
 }

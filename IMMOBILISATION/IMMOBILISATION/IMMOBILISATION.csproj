@@ -192,10 +192,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ExpandoHelper.cs" />
     <Compile Include="Controllers\FamilleBienController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImmobilisationController.cs" />
     <Compile Include="Controllers\LieuxController.cs" />
+    <Compile Include="Controllers\MouvementController.cs" />
     <Compile Include="Controllers\NatureBienController.cs" />
     <Compile Include="Controllers\TiersController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -204,6 +206,9 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\BarCode39.cs" />
+    <Compile Include="Models\DETAILS_MOUVEMENTS.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\FAMILLES_IMMOBILISATIONS.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -230,6 +235,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MOUVEMENTS.cs">
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\NATURES_BIENS.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -601,6 +609,12 @@
     <Content Include="Views\Immobilisation\Form.cshtml" />
     <Content Include="Views\Immobilisation\EditerFicheTechnique.cshtml" />
     <Content Include="Views\Immobilisation\FicheTechnique.cshtml" />
+    <Content Include="Views\Immobilisation\Fiches.cshtml" />
+    <Content Include="Views\Immobilisation\_Fiche.cshtml" />
+    <Content Include="Views\Immobilisation\_Vide.cshtml" />
+    <Content Include="Views\Mouvement\Index.cshtml" />
+    <Content Include="Views\Mouvement\Form.cshtml" />
+    <Content Include="Views\Mouvement\Retour.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

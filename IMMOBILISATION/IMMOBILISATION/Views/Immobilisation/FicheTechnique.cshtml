@@ -16,7 +16,14 @@
 <div class="wrapper wrapper-content animated fadeInRight">
     <p>
         <h1 style="display: inline;">@Model.CODE</h1>
-        <strong>(DISPONIBLE)</strong>
+        @if (Model.DISPONIBILITE)
+        {
+            <span class="label label-success">DISPONIBLE</span>
+        }
+        else
+        {
+            <span class="label label-danger">NON DISPONIBLE</span>
+        }
     </p>
     <div class="row">
         <div class="col-lg-8">

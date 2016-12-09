@@ -13,12 +13,13 @@ namespace IMMOBILISATION.Models
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class IMMOBILISATIONS
     {
         public IMMOBILISATIONS()
         {
             this.FICHES_TECHNIQUES = new HashSet<FICHES_TECHNIQUES>();
+            this.DETAILS_MOUVEMENTS = new HashSet<DETAILS_MOUVEMENTS>();
         }
         private DateTime _date = DateTime.Today;
         private Boolean _boolean = true;
@@ -54,5 +55,6 @@ namespace IMMOBILISATION.Models
         public virtual FAMILLES_IMMOBILISATIONS FAMILLES_IMMOBILISATIONS { get; set; }
         [ForeignKey("FOURNISSEUR")]
         public virtual TIERS TIERS { get; set; }
+        public virtual ICollection<DETAILS_MOUVEMENTS> DETAILS_MOUVEMENTS { get; set; }
     }
 }

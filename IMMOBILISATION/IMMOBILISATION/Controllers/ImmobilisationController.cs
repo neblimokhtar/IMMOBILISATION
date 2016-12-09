@@ -323,5 +323,48 @@ namespace IMMOBILISATION.Controllers
             ImageConverter converter = new ImageConverter();
             return (byte[])converter.ConvertTo(img, typeof(byte[]));
         }
+        public ActionResult Fiches()
+        {
+            List<IMMOBILISATIONS> liste = BD.IMMOBILISATIONS.ToList();
+            return View(liste);
+        }
+        public ActionResult _Fiche(string Code)
+        {
+            if (string.IsNullOrEmpty(Code))
+            {
+                return PartialView("_Vide");
+            }
+            else
+            {
+                int ID = int.Parse(Code);
+                IMMOBILISATIONS Immobilisation = BD.IMMOBILISATIONS.Find(ID);
+                ViewBag.FOURNISSEUR = Immobilisation.TIERS.INTITULE;
+                ViewBag.MARQUE = string.Empty;
+                ViewBag.DESCRIPTION = string.Empty;
+                ViewBag.COMPOSITION = string.Empty;
+                ViewBag.LIEU_FABRICATION = string.Empty;
+                ViewBag.DIMENSION = string.Empty;
+                ViewBag.COULEUR = string.Empty;
+                ViewBag.POID = string.Empty;
+                ViewBag.PUISSANCE = string.Empty;
+                ViewBag.CONSOMMATION = string.Empty;
+                FICHES_TECHNIQUES Fiche = BD.FICHES_TECHNIQUES.Where(Element => Element.IMMOBILISATIONS.ID == ID).FirstOrDefault();
+                if (Fiche != null)
+                {
+                    ViewBag.MARQUE = Fiche.MARQUE;
+                    ViewBag.DESCRIPTION = Fiche.DESCRIPTION;
+                    ViewBag.COMPOSITION = Fiche.COMPOSITION;
+                    ViewBag.LIEU_FABRICATION = Fiche.LIEU_FABRICATION;
+                    ViewBag.DIMENSION = Fiche.DIMENSION;
+                    ViewBag.COULEUR = Fiche.COULEUR;
+                    ViewBag.POID = Fiche.POID;
+                    ViewBag.PUISSANCE = Fiche.PUISSANCE;
+                    ViewBag.CONSOMMATION = Fiche.CONSOMMATION;
+                }
+                ViewBag.IMMOBILISATION = ID;
+                return PartialView("_Fiche", Immobilisation);
+            }
+        }
+
     }
 }

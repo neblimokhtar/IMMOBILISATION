@@ -15,6 +15,14 @@
         <AssociationConnector Association="IMMOBILISATIONModel.FK_FICHES_TECHNIQUES_IMMOBILISATIONS" />
         <AssociationConnector Association="IMMOBILISATIONModel.FK_IMMOBILISATIONS_FAMILLES_IMMOBILISATIONS" />
         <AssociationConnector Association="IMMOBILISATIONModel.FK_IMMOBILISATIONS_TIERS" />
+        <EntityTypeShape EntityType="IMMOBILISATIONModel.DETAILS_MOUVEMENTS" Width="1.5" PointX="1.1094387681733067" PointY="5.77427134186694" />
+        <EntityTypeShape EntityType="IMMOBILISATIONModel.MOUVEMENTS" Width="1.5" PointX="5.8069194936225745" PointY="11.15926920397173" />
+        <AssociationConnector Association="IMMOBILISATIONModel.FK_DETAILS_MOUVEMENTS_IMMOBILISATIONS" />
+        <AssociationConnector Association="IMMOBILISATIONModel.FK_DETAILS_MOUVEMENTS_MOUVEMENTS" />
+        <AssociationConnector Association="IMMOBILISATIONModel.FK_MOUVEMENTS_DEPARTS" />
+        <AssociationConnector Association="IMMOBILISATIONModel.FK_MOUVEMENTS_RETOURS" />
+        <AssociationConnector Association="IMMOBILISATIONModel.FK_MOUVEMENTS_CLIENTS" />
+        <AssociationConnector Association="IMMOBILISATIONModel.FK_MOUVEMENTS_TRANSPORTEURS" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -17,6 +17,8 @@ namespace IMMOBILISATION.Models
         public TIERS()
         {
             this.IMMOBILISATIONS = new HashSet<IMMOBILISATIONS>();
+            this.MOUVEMENTS = new HashSet<MOUVEMENTS>();
+            this.MOUVEMENTS1 = new HashSet<MOUVEMENTS>();
         }
     
         public int ID { get; set; }
@@ -28,5 +30,7 @@ namespace IMMOBILISATION.Models
         public string COMMENTAIRE { get; set; }
     
         public virtual ICollection<IMMOBILISATIONS> IMMOBILISATIONS { get; set; }
+        public virtual ICollection<MOUVEMENTS> MOUVEMENTS { get; set; }
+        public virtual ICollection<MOUVEMENTS> MOUVEMENTS1 { get; set; }
     }
 }

@@ -6,12 +6,22 @@
     <edmx:StorageModels>
     <Schema Namespace="IMMOBILISATIONModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="IMMOBILISATIONModelStoreContainer">
+          <EntitySet Name="DETAILS_MOUVEMENTS" EntityType="IMMOBILISATIONModel.Store.DETAILS_MOUVEMENTS" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="FAMILLES_IMMOBILISATIONS" EntityType="IMMOBILISATIONModel.Store.FAMILLES_IMMOBILISATIONS" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="FICHES_TECHNIQUES" EntityType="IMMOBILISATIONModel.Store.FICHES_TECHNIQUES" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="IMMOBILISATIONS" EntityType="IMMOBILISATIONModel.Store.IMMOBILISATIONS" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="LIEUX" EntityType="IMMOBILISATIONModel.Store.LIEUX" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MOUVEMENTS" EntityType="IMMOBILISATIONModel.Store.MOUVEMENTS" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="NATURES_BIENS" EntityType="IMMOBILISATIONModel.Store.NATURES_BIENS" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TIERS" EntityType="IMMOBILISATIONModel.Store.TIERS" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_DETAILS_MOUVEMENTS_IMMOBILISATIONS" Association="IMMOBILISATIONModel.Store.FK_DETAILS_MOUVEMENTS_IMMOBILISATIONS">
+            <End Role="IMMOBILISATIONS" EntitySet="IMMOBILISATIONS" />
+            <End Role="DETAILS_MOUVEMENTS" EntitySet="DETAILS_MOUVEMENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETAILS_MOUVEMENTS_MOUVEMENTS" Association="IMMOBILISATIONModel.Store.FK_DETAILS_MOUVEMENTS_MOUVEMENTS">
+            <End Role="MOUVEMENTS" EntitySet="MOUVEMENTS" />
+            <End Role="DETAILS_MOUVEMENTS" EntitySet="DETAILS_MOUVEMENTS" />
+          </AssociationSet>
           <AssociationSet Name="FK_FAMILLES_IMMOBILISATIONS_NATURES_BIENS" Association="IMMOBILISATIONModel.Store.FK_FAMILLES_IMMOBILISATIONS_NATURES_BIENS">
             <End Role="NATURES_BIENS" EntitySet="NATURES_BIENS" />
             <End Role="FAMILLES_IMMOBILISATIONS" EntitySet="FAMILLES_IMMOBILISATIONS" />
@@ -28,7 +38,31 @@
             <End Role="TIERS" EntitySet="TIERS" />
             <End Role="IMMOBILISATIONS" EntitySet="IMMOBILISATIONS" />
           </AssociationSet>
+          <AssociationSet Name="FK_MOUVEMENTS_CLIENTS" Association="IMMOBILISATIONModel.Store.FK_MOUVEMENTS_CLIENTS">
+            <End Role="TIERS" EntitySet="TIERS" />
+            <End Role="MOUVEMENTS" EntitySet="MOUVEMENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MOUVEMENTS_DEPARTS" Association="IMMOBILISATIONModel.Store.FK_MOUVEMENTS_DEPARTS">
+            <End Role="LIEUX" EntitySet="LIEUX" />
+            <End Role="MOUVEMENTS" EntitySet="MOUVEMENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MOUVEMENTS_RETOURS" Association="IMMOBILISATIONModel.Store.FK_MOUVEMENTS_RETOURS">
+            <End Role="LIEUX" EntitySet="LIEUX" />
+            <End Role="MOUVEMENTS" EntitySet="MOUVEMENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MOUVEMENTS_TRANSPORTEURS" Association="IMMOBILISATIONModel.Store.FK_MOUVEMENTS_TRANSPORTEURS">
+            <End Role="TIERS" EntitySet="TIERS" />
+            <End Role="MOUVEMENTS" EntitySet="MOUVEMENTS" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="DETAILS_MOUVEMENTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="MOUVEMENT" Type="int" />
+          <Property Name="IMMOBILISATION" Type="int" />
+        </EntityType>
         <EntityType Name="FAMILLES_IMMOBILISATIONS">
           <Key>
             <PropertyRef Name="ID" />
@@ -87,6 +121,19 @@
           <Property Name="LONGITUDE" Type="float" Nullable="false" />
           <Property Name="CODE_POSTAL" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="MOUVEMENTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TYPE" Type="nvarchar" MaxLength="50" />
+          <Property Name="DATE_MOUVEMENT" Type="datetime" Nullable="false" />
+          <Property Name="DISTANCE" Type="float" Nullable="false" />
+          <Property Name="DU" Type="int" />
+          <Property Name="AU" Type="int" />
+          <Property Name="CLIENT" Type="int" />
+          <Property Name="TRANSPORTEUR" Type="int" />
+        </EntityType>
         <EntityType Name="NATURES_BIENS">
           <Key>
             <PropertyRef Name="ID" />
@@ -107,6 +154,30 @@
           <Property Name="INTERLOCUTEUR" Type="nvarchar" MaxLength="50" />
           <Property Name="COMMENTAIRE" Type="nvarchar(max)" />
         </EntityType>
+        <Association Name="FK_DETAILS_MOUVEMENTS_IMMOBILISATIONS">
+          <End Role="IMMOBILISATIONS" Type="IMMOBILISATIONModel.Store.IMMOBILISATIONS" Multiplicity="0..1" />
+          <End Role="DETAILS_MOUVEMENTS" Type="IMMOBILISATIONModel.Store.DETAILS_MOUVEMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IMMOBILISATIONS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DETAILS_MOUVEMENTS">
+              <PropertyRef Name="IMMOBILISATION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETAILS_MOUVEMENTS_MOUVEMENTS">
+          <End Role="MOUVEMENTS" Type="IMMOBILISATIONModel.Store.MOUVEMENTS" Multiplicity="0..1" />
+          <End Role="DETAILS_MOUVEMENTS" Type="IMMOBILISATIONModel.Store.DETAILS_MOUVEMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MOUVEMENTS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DETAILS_MOUVEMENTS">
+              <PropertyRef Name="MOUVEMENT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_FAMILLES_IMMOBILISATIONS_NATURES_BIENS">
           <End Role="NATURES_BIENS" Type="IMMOBILISATIONModel.Store.NATURES_BIENS" Multiplicity="0..1" />
           <End Role="FAMILLES_IMMOBILISATIONS" Type="IMMOBILISATIONModel.Store.FAMILLES_IMMOBILISATIONS" Multiplicity="*" />
@@ -155,6 +226,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MOUVEMENTS_CLIENTS">
+          <End Role="TIERS" Type="IMMOBILISATIONModel.Store.TIERS" Multiplicity="0..1" />
+          <End Role="MOUVEMENTS" Type="IMMOBILISATIONModel.Store.MOUVEMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIERS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MOUVEMENTS">
+              <PropertyRef Name="CLIENT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MOUVEMENTS_DEPARTS">
+          <End Role="LIEUX" Type="IMMOBILISATIONModel.Store.LIEUX" Multiplicity="0..1" />
+          <End Role="MOUVEMENTS" Type="IMMOBILISATIONModel.Store.MOUVEMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LIEUX">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MOUVEMENTS">
+              <PropertyRef Name="DU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MOUVEMENTS_RETOURS">
+          <End Role="LIEUX" Type="IMMOBILISATIONModel.Store.LIEUX" Multiplicity="0..1" />
+          <End Role="MOUVEMENTS" Type="IMMOBILISATIONModel.Store.MOUVEMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LIEUX">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MOUVEMENTS">
+              <PropertyRef Name="AU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MOUVEMENTS_TRANSPORTEURS">
+          <End Role="TIERS" Type="IMMOBILISATIONModel.Store.TIERS" Multiplicity="0..1" />
+          <End Role="MOUVEMENTS" Type="IMMOBILISATIONModel.Store.MOUVEMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIERS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MOUVEMENTS">
+              <PropertyRef Name="TRANSPORTEUR" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -181,6 +300,32 @@
           <AssociationSet Name="FK_IMMOBILISATIONS_TIERS" Association="IMMOBILISATIONModel.FK_IMMOBILISATIONS_TIERS">
             <End Role="TIERS" EntitySet="TIERS" />
             <End Role="IMMOBILISATIONS" EntitySet="IMMOBILISATIONS" />
+          </AssociationSet>
+          <EntitySet Name="DETAILS_MOUVEMENTS" EntityType="IMMOBILISATIONModel.DETAILS_MOUVEMENTS" />
+          <EntitySet Name="MOUVEMENTS" EntityType="IMMOBILISATIONModel.MOUVEMENTS" />
+          <AssociationSet Name="FK_DETAILS_MOUVEMENTS_IMMOBILISATIONS" Association="IMMOBILISATIONModel.FK_DETAILS_MOUVEMENTS_IMMOBILISATIONS">
+            <End Role="IMMOBILISATIONS" EntitySet="IMMOBILISATIONS" />
+            <End Role="DETAILS_MOUVEMENTS" EntitySet="DETAILS_MOUVEMENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DETAILS_MOUVEMENTS_MOUVEMENTS" Association="IMMOBILISATIONModel.FK_DETAILS_MOUVEMENTS_MOUVEMENTS">
+            <End Role="MOUVEMENTS" EntitySet="MOUVEMENTS" />
+            <End Role="DETAILS_MOUVEMENTS" EntitySet="DETAILS_MOUVEMENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MOUVEMENTS_DEPARTS" Association="IMMOBILISATIONModel.FK_MOUVEMENTS_DEPARTS">
+            <End Role="LIEUX" EntitySet="LIEUX" />
+            <End Role="MOUVEMENTS" EntitySet="MOUVEMENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MOUVEMENTS_RETOURS" Association="IMMOBILISATIONModel.FK_MOUVEMENTS_RETOURS">
+            <End Role="LIEUX" EntitySet="LIEUX" />
+            <End Role="MOUVEMENTS" EntitySet="MOUVEMENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MOUVEMENTS_CLIENTS" Association="IMMOBILISATIONModel.FK_MOUVEMENTS_CLIENTS">
+            <End Role="TIERS" EntitySet="TIERS" />
+            <End Role="MOUVEMENTS" EntitySet="MOUVEMENTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MOUVEMENTS_TRANSPORTEURS" Association="IMMOBILISATIONModel.FK_MOUVEMENTS_TRANSPORTEURS">
+            <End Role="TIERS" EntitySet="TIERS" />
+            <End Role="MOUVEMENTS" EntitySet="MOUVEMENTS" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="FAMILLES_IMMOBILISATIONS">
@@ -227,6 +372,8 @@
           <Property Name="LATITUDE" Type="Double" Nullable="false" />
           <Property Name="LONGITUDE" Type="Double" Nullable="false" />
           <Property Type="String" Name="CODE_POSTAL" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MOUVEMENTS" Relationship="IMMOBILISATIONModel.FK_MOUVEMENTS_DEPARTS" FromRole="LIEUX" ToRole="MOUVEMENTS" />
+          <NavigationProperty Name="MOUVEMENTS1" Relationship="IMMOBILISATIONModel.FK_MOUVEMENTS_RETOURS" FromRole="LIEUX" ToRole="MOUVEMENTS" />
         </EntityType>
         <EntityType Name="NATURES_BIENS">
           <Key>
@@ -249,6 +396,8 @@
           <Property Name="INTERLOCUTEUR" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="COMMENTAIRE" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="IMMOBILISATIONS" Relationship="IMMOBILISATIONModel.FK_IMMOBILISATIONS_TIERS" FromRole="TIERS" ToRole="IMMOBILISATIONS" />
+          <NavigationProperty Name="MOUVEMENTS" Relationship="IMMOBILISATIONModel.FK_MOUVEMENTS_CLIENTS" FromRole="TIERS" ToRole="MOUVEMENTS" />
+          <NavigationProperty Name="MOUVEMENTS1" Relationship="IMMOBILISATIONModel.FK_MOUVEMENTS_TRANSPORTEURS" FromRole="TIERS" ToRole="MOUVEMENTS" />
         </EntityType>
         <Association Name="FK_FAMILLES_IMMOBILISATIONS_NATURES_BIENS">
           <End Role="NATURES_BIENS" Type="IMMOBILISATIONModel.NATURES_BIENS" Multiplicity="0..1" />
@@ -280,6 +429,7 @@
           <Property Type="Boolean" Name="DISPONIBILITE" Nullable="false" />
           <NavigationProperty Name="FAMILLES_IMMOBILISATIONS" Relationship="IMMOBILISATIONModel.FK_IMMOBILISATIONS_FAMILLES_IMMOBILISATIONS" FromRole="IMMOBILISATIONS" ToRole="FAMILLES_IMMOBILISATIONS" />
           <NavigationProperty Name="TIERS" Relationship="IMMOBILISATIONModel.FK_IMMOBILISATIONS_TIERS" FromRole="IMMOBILISATIONS" ToRole="TIERS" />
+          <NavigationProperty Name="DETAILS_MOUVEMENTS" Relationship="IMMOBILISATIONModel.FK_DETAILS_MOUVEMENTS_IMMOBILISATIONS" FromRole="IMMOBILISATIONS" ToRole="DETAILS_MOUVEMENTS" />
         </EntityType>
         <Association Name="FK_FICHES_TECHNIQUES_IMMOBILISATIONS">
           <End Type="IMMOBILISATIONModel.IMMOBILISATIONS" Role="IMMOBILISATIONS" Multiplicity="0..1" />
@@ -314,6 +464,106 @@
             </Principal>
             <Dependent Role="IMMOBILISATIONS">
               <PropertyRef Name="FOURNISSEUR" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DETAILS_MOUVEMENTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="MOUVEMENT" />
+          <Property Type="Int32" Name="IMMOBILISATION" />
+          <NavigationProperty Name="IMMOBILISATIONS" Relationship="IMMOBILISATIONModel.FK_DETAILS_MOUVEMENTS_IMMOBILISATIONS" FromRole="DETAILS_MOUVEMENTS" ToRole="IMMOBILISATIONS" />
+          <NavigationProperty Name="MOUVEMENTS" Relationship="IMMOBILISATIONModel.FK_DETAILS_MOUVEMENTS_MOUVEMENTS" FromRole="DETAILS_MOUVEMENTS" ToRole="MOUVEMENTS" />
+        </EntityType>
+        <EntityType Name="MOUVEMENTS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="TYPE" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="DATE_MOUVEMENT" Nullable="false" Precision="3" />
+          <Property Type="Double" Name="DISTANCE" Nullable="false" />
+          <Property Type="Int32" Name="DU" />
+          <Property Type="Int32" Name="AU" />
+          <Property Type="Int32" Name="CLIENT" />
+          <Property Type="Int32" Name="TRANSPORTEUR" />
+          <NavigationProperty Name="DETAILS_MOUVEMENTS" Relationship="IMMOBILISATIONModel.FK_DETAILS_MOUVEMENTS_MOUVEMENTS" FromRole="MOUVEMENTS" ToRole="DETAILS_MOUVEMENTS" />
+          <NavigationProperty Name="DEPARTS" Relationship="IMMOBILISATIONModel.FK_MOUVEMENTS_DEPARTS" FromRole="MOUVEMENTS" ToRole="LIEUX" />
+          <NavigationProperty Name="RETOURS" Relationship="IMMOBILISATIONModel.FK_MOUVEMENTS_RETOURS" FromRole="MOUVEMENTS" ToRole="LIEUX" />
+          <NavigationProperty Name="CLIENTS" Relationship="IMMOBILISATIONModel.FK_MOUVEMENTS_CLIENTS" FromRole="MOUVEMENTS" ToRole="TIERS" />
+          <NavigationProperty Name="TRANSPORTEURS" Relationship="IMMOBILISATIONModel.FK_MOUVEMENTS_TRANSPORTEURS" FromRole="MOUVEMENTS" ToRole="TIERS" />
+        </EntityType>
+        <Association Name="FK_DETAILS_MOUVEMENTS_IMMOBILISATIONS">
+          <End Type="IMMOBILISATIONModel.IMMOBILISATIONS" Role="IMMOBILISATIONS" Multiplicity="0..1" />
+          <End Type="IMMOBILISATIONModel.DETAILS_MOUVEMENTS" Role="DETAILS_MOUVEMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IMMOBILISATIONS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DETAILS_MOUVEMENTS">
+              <PropertyRef Name="IMMOBILISATION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DETAILS_MOUVEMENTS_MOUVEMENTS">
+          <End Type="IMMOBILISATIONModel.MOUVEMENTS" Role="MOUVEMENTS" Multiplicity="0..1" />
+          <End Type="IMMOBILISATIONModel.DETAILS_MOUVEMENTS" Role="DETAILS_MOUVEMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MOUVEMENTS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DETAILS_MOUVEMENTS">
+              <PropertyRef Name="MOUVEMENT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MOUVEMENTS_DEPARTS">
+          <End Type="IMMOBILISATIONModel.LIEUX" Role="LIEUX" Multiplicity="0..1" />
+          <End Type="IMMOBILISATIONModel.MOUVEMENTS" Role="MOUVEMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LIEUX">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MOUVEMENTS">
+              <PropertyRef Name="DU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MOUVEMENTS_RETOURS">
+          <End Type="IMMOBILISATIONModel.LIEUX" Role="LIEUX" Multiplicity="0..1" />
+          <End Type="IMMOBILISATIONModel.MOUVEMENTS" Role="MOUVEMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LIEUX">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MOUVEMENTS">
+              <PropertyRef Name="AU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MOUVEMENTS_CLIENTS">
+          <End Type="IMMOBILISATIONModel.TIERS" Role="TIERS" Multiplicity="0..1" />
+          <End Type="IMMOBILISATIONModel.MOUVEMENTS" Role="MOUVEMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIERS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MOUVEMENTS">
+              <PropertyRef Name="CLIENT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MOUVEMENTS_TRANSPORTEURS">
+          <End Type="IMMOBILISATIONModel.TIERS" Role="TIERS" Multiplicity="0..1" />
+          <End Type="IMMOBILISATIONModel.MOUVEMENTS" Role="MOUVEMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIERS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MOUVEMENTS">
+              <PropertyRef Name="TRANSPORTEUR" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -402,6 +652,29 @@
                 <ScalarProperty Name="VALEUR_ACQUISITION_TTC" ColumnName="VALEUR_ACQUISITION_TTC" />
                 <ScalarProperty Name="DESIGNATION" ColumnName="DESIGNATION" />
                 <ScalarProperty Name="CODE" ColumnName="CODE" />
+                <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DETAILS_MOUVEMENTS">
+            <EntityTypeMapping TypeName="IMMOBILISATIONModel.DETAILS_MOUVEMENTS">
+              <MappingFragment StoreEntitySet="DETAILS_MOUVEMENTS">
+                <ScalarProperty Name="IMMOBILISATION" ColumnName="IMMOBILISATION" />
+                <ScalarProperty Name="MOUVEMENT" ColumnName="MOUVEMENT" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MOUVEMENTS">
+            <EntityTypeMapping TypeName="IMMOBILISATIONModel.MOUVEMENTS">
+              <MappingFragment StoreEntitySet="MOUVEMENTS">
+                <ScalarProperty Name="TRANSPORTEUR" ColumnName="TRANSPORTEUR" />
+                <ScalarProperty Name="CLIENT" ColumnName="CLIENT" />
+                <ScalarProperty Name="AU" ColumnName="AU" />
+                <ScalarProperty Name="DU" ColumnName="DU" />
+                <ScalarProperty Name="DISTANCE" ColumnName="DISTANCE" />
+                <ScalarProperty Name="DATE_MOUVEMENT" ColumnName="DATE_MOUVEMENT" />
                 <ScalarProperty Name="TYPE" ColumnName="TYPE" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

@@ -13,20 +13,14 @@ namespace IMMOBILISATION.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public partial class FAMILLES_IMMOBILISATIONS
+    public partial class DETAILS_MOUVEMENTS
     {
-        public FAMILLES_IMMOBILISATIONS()
-        {
-            this.IMMOBILISATIONS = new HashSet<IMMOBILISATIONS>();
-        }
-
         public int ID { get; set; }
-        public string FAMILLE { get; set; }
-        public string TYPE { get; set; }
-        public string INTITULE { get; set; }
-        public Nullable<int> NATURE { get; set; }
-        [ForeignKey("NATURE")]
-        public virtual NATURES_BIENS NATURES_BIENS { get; set; }
-        public virtual ICollection<IMMOBILISATIONS> IMMOBILISATIONS { get; set; }
+        public Nullable<int> MOUVEMENT { get; set; }
+        public Nullable<int> IMMOBILISATION { get; set; }
+        [ForeignKey("IMMOBILISATION")]
+        public virtual IMMOBILISATIONS IMMOBILISATIONS { get; set; }
+        [ForeignKey("MOUVEMENT")]
+        public virtual MOUVEMENTS MOUVEMENTS { get; set; }
     }
 }

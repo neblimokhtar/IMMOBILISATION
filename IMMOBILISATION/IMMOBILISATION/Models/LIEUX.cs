@@ -15,6 +15,12 @@ namespace IMMOBILISATION.Models
     
     public partial class LIEUX
     {
+        public LIEUX()
+        {
+            this.MOUVEMENTS = new HashSet<MOUVEMENTS>();
+            this.MOUVEMENTS1 = new HashSet<MOUVEMENTS>();
+        }
+
         public int ID { get; set; }
         public string INTITULE { get; set; }
         public string ADRESSE { get; set; }
@@ -27,5 +33,8 @@ namespace IMMOBILISATION.Models
         [DefaultValue(0)]
         public double LONGITUDE { get; set; }
         public string CODE_POSTAL { get; set; }
+    
+        public virtual ICollection<MOUVEMENTS> MOUVEMENTS { get; set; }
+        public virtual ICollection<MOUVEMENTS> MOUVEMENTS1 { get; set; }
     }
 }

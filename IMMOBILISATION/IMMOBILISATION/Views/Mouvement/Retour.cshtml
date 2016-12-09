@@ -1,0 +1,174 @@
+﻿<link href="~/css/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="~/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css" />
+@using IMMOBILISATION.Models;
+@{
+    ImmobilisationEntities BD = new ImmobilisationEntities();
+    List<FAMILLES_IMMOBILISATIONS> ListeFamille = BD.FAMILLES_IMMOBILISATIONS.ToList();
+    List<TIERS> ListeTires = BD.TIERS.ToList();
+    List<LIEUX> ListeLieux = BD.LIEUX.ToList();
+    List<IMMOBILISATIONS> ListeImmobilisation = BD.IMMOBILISATIONS.Where(Element => Element.DISPONIBILITE).ToList();
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>MOUVEMENTS</h2>
+        <ol class="breadcrumb">
+            <li><a>GESTION</a> </li>
+            <li class="active"><strong>MOUVEMENT RETOUR</strong> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    @using (Html.BeginForm("SendForm", "Mouvement", new { Mode = ViewBag.Mode, Code = ViewBag.Code }, FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "FORM" }))
+    {
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        TYPE</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="TYPE" id="TYPE" value="@ViewBag.TYPE" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="text-align: initial; padding-left: 0px;">
+                        DATE MOUVEMENT</label>
+                    <div class="col-lg-10">
+                        <div class="input-group date">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input type="text" class="form-control" name="DATE_MOUVEMENT" id="DATE_MOUVEMENT" required value="@ViewBag.DATE_MOUVEMENT">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        DU</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" value="@ViewBag.DEPARTS" readonly />
+                        <input type="hidden" id="DU" value="@ViewBag.DU" name="DU" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        AU</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" value="@ViewBag.RETOURS" readonly />
+                        <input type="hidden" id="AU" value="@ViewBag.AU" name="AU" />
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="text-align: initial; padding-left: 0px;">
+                        CLIENT</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" value="@ViewBag.CLIENTS" readonly />
+                        <input type="hidden" id="CLIENT" value="@ViewBag.CLIENT" name="CLIENT" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="text-align: initial; padding-left: 0px;">
+                        TRANSPORTEUR</label>
+                    <div class="col-lg-10">
+                        <select class="form-control" name="TRANSPORTEUR" id="TRANSPORTEUR">
+                            <option></option>
+                            @foreach (TIERS tier in ListeTires)
+                            {
+                                if (tier.TYPE == "TRANSPORTEURS")
+                                {
+                                <option value="@tier.ID">@tier.INTITULE</option> 
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        DISTANCE</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="DISTANCE" id="DISTANCE"  value="@ViewBag.DISTANCE" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" style="padding-left: 0px; text-align: initial;">
+                        IMMOBILISATIONS</label>
+                    <div class="col-lg-10">
+                        <select class="form-control" name="IMMOBILISATION" id="IMMOBILISATION" multiple="multiple">
+                            @foreach (var bien in Model)
+                            {
+                                <option value="@bien.IMMOBILISATIONS.ID" selected="selected">@bien.IMMOBILISATIONS.CODE</option>
+                                
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row pull-right" style="margin-right: 15px; margin-top: 15px;">
+            <button type="button" class="btn btn-w-m btn-success" id="Valider">
+                <i class="fa fa-check-square-o" aria-hidden="true" style="margin-right: 5px;"></i>Valider</button>
+        </div>
+    }
+</div>
+<script src="~/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+<script src="~/js/select2.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#TRANSPORTEUR").select2();
+        $("#IMMOBILISATION").select2();
+        $("#DATE_MOUVEMENT").datepicker({
+            format: 'dd/mm/yyyy'
+        });
+        $('#FORM').validate({
+            rules: {
+                DATE_MOUVEMENT: {
+                    required: true
+                },
+                DU: {
+                    required: true
+                },
+                AU: {
+                    required: true
+                },
+                CLIENT: {
+                    required: true
+                },
+                TRANSPORTEUR: {
+                    required: true
+                },
+                IMMOBILISATION: {
+                    required: true
+                }
+            }
+        });
+    });
+    $("#Valider").click(function () {
+        var r = confirm("Voulez vous vraiment valider cette action ?");
+        if (r == true) {
+            $("form").submit();
+        }
+    });
+
+</script>
+

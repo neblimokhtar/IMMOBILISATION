@@ -1,1 +1,68 @@
-﻿
+﻿@using IMMOBILISATION.Models;
+@{
+    ImmobilisationEntities BD = new ImmobilisationEntities();
+    List<IMMOBILISATIONS> ListeImmobDispo = BD.IMMOBILISATIONS.Where(Element => Element.DISPONIBILITE).ToList();
+    List<IMMOBILISATIONS> ListeImmobNonDispo = BD.IMMOBILISATIONS.Where(Element => !Element.DISPONIBILITE).ToList();
+
+}
+<div class="row">
+    <div class="col-lg-6">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>IMMOBILISATION DISPONIBLE</h5>
+                <div class="ibox-tools">
+                </div>
+            </div>
+            <div class="ibox-content">
+                <table class="table table-hover no-margins">
+                    <thead>
+                        <tr>
+                            <th>IMMOBILISATION</th>
+                            <th>FAMILLE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (IMMOBILISATIONS immobilisation in ListeImmobDispo)
+                        {
+                            <tr>
+                                <td>@immobilisation.CODE</td>
+                                <td>@immobilisation.FAMILLES_IMMOBILISATIONS.INTITULE</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>IMMOBILISATION DISPONIBLE</h5>
+                <div class="ibox-tools">
+                </div>
+            </div>
+            <div class="ibox-content">
+                <table class="table table-hover no-margins">
+                    <thead>
+                        <tr>
+                            <th>IMMOBILISATION</th>
+                            <th>FAMILLE</th>
+                            <th>CLIENT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (IMMOBILISATIONS immobilisation in ListeImmobNonDispo)
+                        {
+                            string Client = BD.DETAILS_MOUVEMENTS.Where(Element => Element.IMMOBILISATIONS.ID == immobilisation.ID).ToList().LastOrDefault().MOUVEMENTS.CLIENTS.INTITULE;
+                            <tr>
+                                <td>@immobilisation.CODE</td>
+                                <td>@immobilisation.FAMILLES_IMMOBILISATIONS.INTITULE</td>
+                                <td>@Client</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
