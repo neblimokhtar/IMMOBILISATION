@@ -1,15 +1,19 @@
-﻿@using IMMOBILISATION.Models;
+﻿<link href="~/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
+@using IMMOBILISATION.Models;
 @{
     ImmobilisationEntities BD = new ImmobilisationEntities();
     List<IMMOBILISATIONS> ListeImmobDispo = BD.IMMOBILISATIONS.Where(Element => Element.DISPONIBILITE).ToList();
     List<IMMOBILISATIONS> ListeImmobNonDispo = BD.IMMOBILISATIONS.Where(Element => !Element.DISPONIBILITE).ToList();
-
+    List<TIERS> ListeClient = BD.TIERS.Where(Element => Element.TYPE == "CLIENTS").ToList();
+    List<TIERS> ListeTransporteur = BD.TIERS.Where(Element => Element.TYPE == "TRANSPORTEURS").ToList();
+    List<TIERS> ListeFournisseur = BD.TIERS.Where(Element => Element.TYPE == "FOURNISSEURS").ToList();
+    List<FAMILLES_IMMOBILISATIONS> ListeFamille = BD.FAMILLES_IMMOBILISATIONS.ToList();
 }
 <div class="row">
     <div class="col-lg-6">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>IMMOBILISATION DISPONIBLE</h5>
+                <strong class="label label-primary">IMMOBILISATION DISPONIBLE</strong>
                 <div class="ibox-tools">
                 </div>
             </div>
@@ -37,7 +41,7 @@
     <div class="col-lg-6">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>IMMOBILISATION DISPONIBLE</h5>
+                <strong class="label label-warning">IMMOBILISATION NON DISPONIBLE</strong>
                 <div class="ibox-tools">
                 </div>
             </div>
@@ -66,3 +70,102 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Répartition des tiers par type</h5>
+            </div>
+            <div class="ibox-content">
+                <div id="exemple1"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Répartition des immobilisations par famille</h5>
+            </div>
+            <div class="ibox-content">
+                <div id="exemple2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Suivi des mouvements par clients</h5>
+                <div class="ibox-tools">
+                    <span data-diameter="40" class="updating-chart pull-right">5,3,9,6,5,9,7,3,5,2,5,3,9,6,5,9,7,3,5,2</span>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div id="morris-one-line-chart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/plugins/morris/raphael-2.1.0.min.js"></script>
+<script src="~/js/plugins/morris/morris.js"></script>
+<script src="~/js/plugins/peity/jquery.peity.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var updatingChart = $(".updating-chart").peity("line", { fill: '#1ab394', stroke: '#169c81', width: 64 })
+
+        setInterval(function () {
+            var random = Math.round(Math.random() * 10)
+            var values = updatingChart.text().split(",")
+            values.shift()
+            values.push(random)
+
+            updatingChart
+                .text(values.join(","))
+                .change()
+        }, 1000);
+        var data = [];
+        var dataSet = [];
+        @foreach (TIERS item in ListeClient)
+        {
+            int Count = BD.MOUVEMENTS.Where(Element => Element.CLIENTS.ID == item.ID).ToList() != null ? BD.MOUVEMENTS.Where(Element => Element.CLIENTS.ID == item.ID).Count() : 0;
+            <text>
+        data.push({ x: "@item.INTITULE", y: parseInt("@Count") });
+        </text>
+        }
+       @foreach (FAMILLES_IMMOBILISATIONS famille in ListeFamille)
+       {
+           int count = BD.IMMOBILISATIONS.Where(Element => Element.FAMILLES_IMMOBILISATIONS.ID == famille.ID).ToList() != null ? BD.IMMOBILISATIONS.Where(Element => Element.FAMILLES_IMMOBILISATIONS.ID == famille.ID).Count() : 0;
+                       <text>
+        dataSet.push({ label: "@famille.INTITULE", value: parseInt("@count") });
+        </text>
+       }
+        Morris.Line({
+            element: 'morris-one-line-chart',
+            data: data,
+            xkey: 'x',
+            ykeys: ['y'],
+            resize: true,
+            parseTime: false,
+            lineWidth: 4,
+            labels: ['Mouvements'],
+            lineColors: ['#1ab394'],
+            pointSize: 5,
+        });
+        Morris.Donut({
+            element: 'exemple1',
+            data: [{ label: "CLIENTS", value: "@ListeClient.Count" },
+                { label: "FOURNISSEURS", value: "@ListeFournisseur.Count" },
+                { label: "TRANSPORTEURS", value: "@ListeTransporteur.Count" }],
+            resize: true,
+            colors: ['#87d6c6', '#54cdb4', '#1ab394'],
+        });
+        Morris.Donut({
+            element: 'exemple2',
+            data: dataSet,
+            resize: true,
+            colors: ['#87d6c6', '#54cdb4', '#1ab394'],
+        });
+    });
+</script>
