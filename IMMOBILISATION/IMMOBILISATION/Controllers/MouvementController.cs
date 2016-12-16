@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using IMMOBILISATION.Models;
 using System.Globalization;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
 
 
 namespace IMMOBILISATION.Controllers
@@ -262,6 +264,80 @@ namespace IMMOBILISATION.Controllers
                 return View(liste);
             }
 
+        }
+        public ActionResult Print(string Filter)
+        {
+            List<MOUVEMENTS> Liste = BD.MOUVEMENTS.ToList();
+            if (!string.IsNullOrEmpty(Filter))
+            {
+                Liste = Liste.Where(Element => Element.TYPE == Filter).ToList();
+            }
+            dynamic dt = from Element in Liste
+                         select new
+                         {
+                             TYPE = Element.TYPE,
+                             DATE_MOUVEMENT = Element.DATE_MOUVEMENT != null ? Element.DATE_MOUVEMENT.ToShortDateString() : string.Empty,
+                             DISTANCE = Element.DISTANCE != null ? Element.DISTANCE.ToString("F3") : "0",
+                             DU = Element.DEPARTS != null ? Element.DEPARTS.INTITULE : string.Empty,
+                             AU = Element.RETOURS != null ? Element.RETOURS.INTITULE : string.Empty,
+                             CLIENT = Element.CLIENTS != null ? Element.CLIENTS.INTITULE : string.Empty,
+                             TRANSPORTEUR = Element.TRANSPORTEURS != null ? Element.TRANSPORTEURS.INTITULE : string.Empty,
+                         };
+            ReportDocument rptH = new ReportDocument();
+            string FileName = Server.MapPath("/Reports/LISTE_MOUVEMENT.rpt");
+            rptH.Load(FileName);
+            rptH.SetDataSource(dt);
+            rptH.SummaryInfo.ReportTitle = "Liste des mouvements";
+            Stream stream = rptH.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            return File(stream, "application/pdf");
+        }
+        public ActionResult PrintG()
+        {
+            List<MOUVEMENTS> Liste = BD.MOUVEMENTS.ToList();
+            dynamic dt = from Element in Liste
+                         select new
+                         {
+                             TYPE = Element.TYPE,
+                             DATE_MOUVEMENT = Element.DATE_MOUVEMENT != null ? Element.DATE_MOUVEMENT.ToShortDateString() : string.Empty,
+                             DISTANCE = Element.DISTANCE != null ? Element.DISTANCE.ToString("F3") : "0",
+                             DU = Element.DEPARTS != null ? Element.DEPARTS.INTITULE : string.Empty,
+                             AU = Element.RETOURS != null ? Element.RETOURS.INTITULE : string.Empty,
+                             CLIENT = Element.CLIENTS != null ? Element.CLIENTS.INTITULE : string.Empty,
+                             TRANSPORTEUR = Element.TRANSPORTEURS != null ? Element.TRANSPORTEURS.INTITULE : string.Empty,
+                         };
+            ReportDocument rptH = new ReportDocument();
+            string FileName = Server.MapPath("/Reports/MOUVEMENT_GROUP.rpt");
+            rptH.Load(FileName);
+            rptH.SetDataSource(dt);
+            rptH.SummaryInfo.ReportTitle = "Liste des mouvements";
+            Stream stream = rptH.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            return File(stream, "application/pdf");
+        }
+        public ActionResult PrintMouvement(string Code)
+        {
+            int ID = int.Parse(Code);
+            MOUVEMENTS Mouvement = BD.MOUVEMENTS.Find(ID);
+            List<DETAILS_MOUVEMENTS> Liste = BD.DETAILS_MOUVEMENTS.Where(Element => Element.MOUVEMENTS.ID == ID).ToList();
+            dynamic dt = from Element in Liste
+                         select new
+                         {
+                             TYPE = Mouvement.TYPE,
+                             DATE_MOUVEMENT = Mouvement.DATE_MOUVEMENT != null ? Mouvement.DATE_MOUVEMENT.ToShortDateString() : string.Empty,
+                             DISTANCE = Mouvement.DISTANCE != null ? Mouvement.DISTANCE.ToString("F3") : "0",
+                             DU = Mouvement.DEPARTS != null ? Mouvement.DEPARTS.INTITULE : string.Empty,
+                             AU = Mouvement.RETOURS != null ? Mouvement.RETOURS.INTITULE : string.Empty,
+                             CLIENT = Mouvement.CLIENTS != null ? Mouvement.CLIENTS.INTITULE : string.Empty,
+                             TRANSPORTEUR = Mouvement.TRANSPORTEURS != null ? Mouvement.TRANSPORTEURS.INTITULE : string.Empty,
+                             IMMOBILISATION=Element.IMMOBILISATIONS!=null ? Element.IMMOBILISATIONS.CODE:string.Empty,
+                             FAMILLE = Element.IMMOBILISATIONS != null ? Element.IMMOBILISATIONS.FAMILLES_IMMOBILISATIONS.FAMILLE : string.Empty,
+                         };
+            ReportDocument rptH = new ReportDocument();
+            string FileName = Server.MapPath("/Reports/MOUVEMENT.rpt");
+            rptH.Load(FileName);
+            rptH.SetDataSource(dt);
+            rptH.SummaryInfo.ReportTitle = "Detail du mouvement";
+            Stream stream = rptH.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            return File(stream, "application/pdf");
         }
 
 

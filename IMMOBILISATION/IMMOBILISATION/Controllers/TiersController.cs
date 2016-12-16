@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using IMMOBILISATION.Models;
 using System.Globalization;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
 
 namespace IMMOBILISATION.Controllers
 {
@@ -81,6 +83,30 @@ namespace IMMOBILISATION.Controllers
             BD.TIERS.Remove(Selected);
             BD.SaveChanges();
             return RedirectToAction("Index");
+        }
+        public ActionResult Print(string Filter)
+        {
+            List<TIERS> Liste = BD.TIERS.ToList();
+            if (!string.IsNullOrEmpty(Filter))
+            {
+                Liste = Liste.Where(Element => Element.TYPE == Filter).ToList();
+            }
+            dynamic dt = from Element in Liste
+                         select new
+                         {
+                             TYPE = Element.TYPE,
+                             INTITULE = Element.INTITULE,
+                             ABREGE = Element.ABREGE,
+                             QUALITE=Element.QUALITE,
+                             INTERLOCUTEUR=Element.INTERLOCUTEUR
+                         };
+            ReportDocument rptH = new ReportDocument();
+            string FileName = Server.MapPath("/Reports/TIERS.rpt");
+            rptH.Load(FileName);
+            rptH.SetDataSource(dt);
+            rptH.SummaryInfo.ReportTitle = "Liste des tiers";
+            Stream stream = rptH.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            return File(stream, "application/pdf");
         }
 
 

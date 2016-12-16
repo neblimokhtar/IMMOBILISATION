@@ -135,6 +135,10 @@
         var MyValue = "@ViewBag.IMMOBILISATION";
         window.location.href = "/Immobilisation/EditerFicheTechnique?Code=" + MyValue;
     });
+    $("#PrintBtn").click(function () {
+        var MyValue = "@ViewBag.IMMOBILISATION";
+        window.open("/Immobilisation/PrintFiche?Code=" + MyValue, '_blank');
+    });
 </script>
 
 

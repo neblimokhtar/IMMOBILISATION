@@ -38,8 +38,16 @@
                             <div class="ibox-tools">
                                 <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("Form", "Tiers", new { Mode = "Create", Code = "-1" }, null)'">
                                     <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Ajouter</span></button>
-                                <button class="btn btn-primary " type="button" id="PrintBtn">
-                                    <i class="fa fa-print" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Imprimer</span></button>
+                                <div class="btn-group">
+                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;&nbsp;Imprimer <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#" class="font-bold" id="PrintBtn">Tout</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#" id="PrintBtnC">Clients</a></li>
+                                        <li><a href="#" id="PrintBtnF">Fournisseurs</a></li>
+                                        <li><a href="#" id="PrintBtnT">Transporteurs</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -149,6 +157,19 @@
             window.location.href = "/Tiers/Delete?Code=" + MyValue;
         }
     }
+    $("#PrintBtn").click(function () {
+        window.open("/Tiers/Print", '_blank');
+    });
+    $("#PrintBtnC").click(function () {
+        window.open("/Tiers/Print?Filter=CLIENTS", '_blank');
+    });
+    $("#PrintBtnF").click(function () {
+        window.open("/Tiers/Print?Filter=FOURNISSEURS", '_blank');
+    });
+    $("#PrintBtnT").click(function () {
+        window.open("/Tiers/Print?Filter=TRANSPORTEURS", '_blank');
+    });
+
     $(document).ready(function () {
     });
 </script>

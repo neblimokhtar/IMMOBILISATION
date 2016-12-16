@@ -21,8 +21,17 @@
                     <div class="ibox-tools">
                         <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("Form", "Mouvement", new { Mode = "Create", Code = "-1" }, null)'">
                             <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Ajouter</span></button>
-                        <button class="btn btn-primary " type="button" id="PrintBtn">
-                            <i class="fa fa-print" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Imprimer</span></button>
+                        <div class="btn-group">
+                            <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;&nbsp;Imprimer <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" class="font-bold" id="PrintBtn">Tout</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" id="PrintBtnS">Sortie</a></li>
+                                <li><a href="#" id="PrintBtnR">Retour</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" id="PrintBtnG">Par Client</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="ibox-content">
@@ -54,14 +63,14 @@
 
                                 <tr id="@item.ID">
                                     <td>
-                                         @if (item.TYPE=="SORTIE")
-                                            {
-                                                <span class="label label-success"><i class="fa fa-forward" aria-hidden="true"></i> @item.TYPE</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="label label-warning"><i class="fa fa-backward" aria-hidden="true"></i> @item.TYPE</span>
-                                            }
+                                        @if (item.TYPE == "SORTIE")
+                                        {
+                                            <span class="label label-success"><i class="fa fa-forward" aria-hidden="true"></i>@item.TYPE</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="label label-warning"><i class="fa fa-backward" aria-hidden="true"></i>@item.TYPE</span>
+                                        }
                                     </td>
                                     <td>
                                         @item.DATEMOUVEMENT
@@ -132,7 +141,7 @@
     $(".custom-menu li").click(function () {
         var MyValue = window.myValue;
         switch ($(this).attr("data-action")) {
-            case "Map": Btn_Map_click(MyValue); break;
+            case "Print": Btn_Print_click(MyValue); break;
             case "Delete": Btn_Delete_click(MyValue); break;
             case "Edit": Btn_Edit_click(MyValue); break;
             case "Back": Btn_Back_click(MyValue); break;
@@ -143,7 +152,9 @@
     function Btn_Edit_click(MyValue) {
         window.location.href = "/Mouvement/Form?Code=" + MyValue + "&Mode=Edit";
     }
-
+    function Btn_Print_click(MyValue) {
+        window.open("/Mouvement/PrintMouvement?Code=" + MyValue, '_blank');
+    }
     function Btn_Delete_click(MyValue) {
         var r = confirm("Voulez vous vraiment supprimer ce mouvement ?");
         if (r == true) {
@@ -163,6 +174,20 @@
   '_blank'
 );
     }
+
+
+    $("#PrintBtn").click(function () {
+        window.open("/Mouvement/Print", '_blank');
+    });
+    $("#PrintBtnS").click(function () {
+        window.open("/Mouvement/Print?Filter=SORTIE", '_blank');
+    });
+    $("#PrintBtnR").click(function () {
+        window.open("/Mouvement/Print?Filter=RETOUR", '_blank');
+    });
+    $("#PrintBtnG").click(function () {
+        window.open("/Mouvement/PrintG", '_blank');
+    });
     $(document).ready(function () {
     });
 </script>

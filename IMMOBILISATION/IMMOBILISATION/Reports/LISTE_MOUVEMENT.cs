@@ -16,14 +16,14 @@ namespace IMMOBILISATION.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class LIEUX : ReportClass {
+    public class LISTE_MOUVEMENT : ReportClass {
         
-        public LIEUX() {
+        public LISTE_MOUVEMENT() {
         }
         
         public override string ResourceName {
             get {
-                return "LIEUX.rpt";
+                return "LISTE_MOUVEMENT.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMMOBILISATION.Reports {
         
         public override string FullResourceName {
             get {
-                return "IMMOBILISATION.Reports.LIEUX.rpt";
+                return "IMMOBILISATION.Reports.LISTE_MOUVEMENT.rpt";
             }
             set {
                 // Do nothing
@@ -90,9 +90,9 @@ namespace IMMOBILISATION.Reports {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedLIEUX : Component, ICachedReport {
+    public class CachedLISTE_MOUVEMENT : Component, ICachedReport {
         
-        public CachedLIEUX() {
+        public CachedLISTE_MOUVEMENT() {
         }
         
         [Browsable(false)]
@@ -129,7 +129,7 @@ namespace IMMOBILISATION.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            LIEUX rpt = new LIEUX();
+            LISTE_MOUVEMENT rpt = new LISTE_MOUVEMENT();
             rpt.Site = this.Site;
             return rpt;
         }

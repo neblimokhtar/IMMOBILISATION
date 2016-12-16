@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using IMMOBILISATION.Models;
 using System.Globalization;
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
 
 
 namespace IMMOBILISATION.Controllers
@@ -119,6 +121,30 @@ namespace IMMOBILISATION.Controllers
         {
             List<LIEUX> Liste = BD.LIEUX.ToList();
             return View(Liste);
+        }
+        public ActionResult Print()
+        {
+            List<LIEUX> Liste = BD.LIEUX.ToList();
+            dynamic dt = from Element in Liste
+                         select new
+                         {
+                             INTITULE = Element.INTITULE,
+                             ADRESSE = Element.ADRESSE,
+                             VILLE = Element.VILLE,
+                             REGION=Element.REGION,
+                             PAYS=Element.PAYS,
+                             TELEPHONE=Element.TELEPHONE,
+                             LATITUDE=Element.LATITUDE,
+                             LONGITUDE=Element.LONGITUDE,
+                             CODE_POSTAL=Element.CODE_POSTAL
+                         };
+            ReportDocument rptH = new ReportDocument();
+            string FileName = Server.MapPath("/Reports/LIEUX.rpt");
+            rptH.Load(FileName);
+            rptH.SetDataSource(dt);
+            rptH.SummaryInfo.ReportTitle = "Lieux";
+            Stream stream = rptH.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            return File(stream, "application/pdf");
         }
 
     }

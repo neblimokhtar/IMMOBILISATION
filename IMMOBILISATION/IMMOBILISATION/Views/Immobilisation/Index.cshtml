@@ -54,8 +54,15 @@
                             <div class="ibox-tools">
                                 <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("Form", "Immobilisation", new { Mode = "Create", Code = "-1" }, null)'">
                                     <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Ajouter</span></button>
-                                <button class="btn btn-primary " type="button" id="PrintBtn">
-                                    <i class="fa fa-print" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Imprimer</span></button>
+                                <div class="btn-group">
+                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;&nbsp;Imprimer <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#" class="font-bold" id="PrintBtn">Tout</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#" id="PrintBtnD">Disponible</a></li>
+                                        <li><a href="#" id="PrintBtnN">Non Disponible</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -193,6 +200,16 @@
             window.location.href = "/Immobilisation/Delete?Code=" + MyValue;
         }
     }
+    $("#PrintBtn").click(function () {
+        window.open("/Immobilisation/Print", '_blank');
+    });
+    $("#PrintBtnD").click(function () {
+        window.open("/Immobilisation/Print?Filter=Dispo", '_blank');
+    });
+    $("#PrintBtnN").click(function () {
+        window.open("/Immobilisation/Print?Filter=NonDispo", '_blank');
+    });
+
     $(document).ready(function () {
     });
 </script>

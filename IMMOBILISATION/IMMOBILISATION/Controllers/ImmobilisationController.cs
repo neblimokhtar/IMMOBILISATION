@@ -10,6 +10,7 @@ using System.Text;
 using QRCoder;
 using System.IO;
 using System.Drawing;
+using CrystalDecisions.CrystalReports.Engine;
 
 namespace IMMOBILISATION.Controllers
 {
@@ -364,6 +365,77 @@ namespace IMMOBILISATION.Controllers
                 ViewBag.IMMOBILISATION = ID;
                 return PartialView("_Fiche", Immobilisation);
             }
+        }
+        public ActionResult Print(string Filter)
+        {
+            List<IMMOBILISATIONS> Liste = BD.IMMOBILISATIONS.ToList();
+            if (!string.IsNullOrEmpty(Filter))
+            {
+                if (Filter == "Dispo")
+                    Liste = Liste.Where(Element => Element.DISPONIBILITE).ToList();
+                if (Filter == "NonDispo")
+                    Liste = Liste.Where(Element => !Element.DISPONIBILITE).ToList();
+            }
+            dynamic dt = from Element in Liste
+                         select new
+                         {
+                             TYPE = Element.TYPE,
+                             CODE = Element.CODE,
+                             DESIGNATION = Element.DESIGNATION,
+                             VALEUR_ACQUISITION_TTC = Element.VALEUR_ACQUISITION_TTC != null ? Element.VALEUR_ACQUISITION_TTC.ToString("F3") : "0",
+                             DATE_AQUISITION = Element.DATE_AQUISITION != null ? Element.DATE_AQUISITION.ToShortDateString() : string.Empty,
+                             DATE_MISE_EN_SERVICE = Element.DATE_MISE_EN_SERVICE != null ? Element.DATE_MISE_EN_SERVICE.ToShortDateString() : string.Empty,
+                             FOURNISSEUR = Element.TIERS != null ? Element.TIERS.INTITULE : string.Empty,
+                             FAMILLE = Element.FAMILLES_IMMOBILISATIONS != null ? Element.FAMILLES_IMMOBILISATIONS.FAMILLE : string.Empty,
+                             CODE_A_BARRE = Element.CODE_A_BARRE,
+                             DISPONIBILITE = Element.DISPONIBILITE ? "DISPONIBLE" : "NON DISPONIBLE"
+                         };
+            ReportDocument rptH = new ReportDocument();
+            string FileName = Server.MapPath("/Reports/IMMOBILISATIONS.rpt");
+            rptH.Load(FileName);
+            rptH.SetDataSource(dt);
+            rptH.SummaryInfo.ReportTitle = "Liste des immobilisations";
+            Stream stream = rptH.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            return File(stream, "application/pdf");
+        }
+        public ActionResult PrintFiche(string Code)
+        {
+            int ID = int.Parse(Code);
+            IMMOBILISATIONS Immobilisation = BD.IMMOBILISATIONS.Find(ID);
+            FICHES_TECHNIQUES Fiche = BD.FICHES_TECHNIQUES.Where(Element => Element.IMMOBILISATIONS.ID == ID).FirstOrDefault();
+            ViewBag.IMMOBILISATION = ID;
+            dynamic dt = new
+                         {
+                             CODE = Immobilisation.CODE,
+                             TYPE = Immobilisation.TYPE,
+                             FAMILLE = Immobilisation.FAMILLES_IMMOBILISATIONS.FAMILLE,
+                             DATE_AQUISITION = Immobilisation.DATE_AQUISITION != null ? Immobilisation.DATE_AQUISITION.ToShortDateString() : string.Empty,
+                             VALEUR_AQUISITION = Immobilisation.VALEUR_ACQUISITION_TTC != null ? Immobilisation.VALEUR_ACQUISITION_TTC.ToString("F3") : string.Empty,
+                             CODE_A_BARRE = Immobilisation.CODE_A_BARRE,
+                             DESIGNATION = Immobilisation.DESIGNATION,
+                             NATURE = Immobilisation.FAMILLES_IMMOBILISATIONS.NATURES_BIENS.NATURE,
+                             DATE_MISE_SERVICE = Immobilisation.DATE_MISE_EN_SERVICE != null ? Immobilisation.DATE_MISE_EN_SERVICE.ToShortDateString() : string.Empty,
+                             FOURNISSEUR = Immobilisation.TIERS.INTITULE,
+                             MARQUE = Fiche != null ? Fiche.MARQUE : string.Empty,
+                             DESCRIPTION = Fiche != null ? Fiche.DESCRIPTION : string.Empty,
+                             COMPOSITION = Fiche != null ? Fiche.COMPOSITION : string.Empty,
+                             LIEU_FABRICATION = Fiche != null ? Fiche.LIEU_FABRICATION : string.Empty,
+                             DIMENSION = Fiche != null ? Fiche.DIMENSION : string.Empty,
+                             COULEUR = Fiche != null ? Fiche.COULEUR : string.Empty,
+                             POID = Fiche != null ? Fiche.POID : string.Empty,
+                             PUISSANCE = Fiche != null ? Fiche.PUISSANCE : string.Empty,
+                             CONSOMMATION = Fiche != null ? Fiche.CONSOMMATION : string.Empty,
+                             BARRE = getBarcodeImage(Immobilisation.CODE_A_BARRE, string.Empty),
+                             QR = getQRcodeImage(Immobilisation.CODE),
+                             DISPONIBILITE = Immobilisation.DISPONIBILITE ? "DISPONIBLE" : "NON DISPONIBLE",
+                         };
+            ReportDocument rptH = new ReportDocument();
+            string FileName = Server.MapPath("/Reports/FICHE_TECHNIQUE.rpt");
+            rptH.Load(FileName);
+            rptH.SetDataSource(new[] { dt });
+            rptH.SummaryInfo.ReportTitle = "Fiche Technique";
+            Stream stream = rptH.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            return File(stream, "application/pdf");
         }
 
     }

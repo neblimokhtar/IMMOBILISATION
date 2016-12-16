@@ -70,6 +70,7 @@
                         FAMILLE</label>
                     <div class="col-lg-10">
                         <select class="form-control" name="FAMILLE" id="FAMILLE">
+                            <option></option>
                         </select>
                         <input type="hidden" name="FAMILLE" value="" id="FAMILLEH" />
                     </div>
@@ -81,6 +82,7 @@
                         FOURNISSEUR</label>
                     <div class="col-lg-10">
                         <select class="form-control" name="FOURNISSEUR" id="FOURNISSEUR">
+                            <option></option>
                         </select>
                     </div>
                 </div>
@@ -167,7 +169,7 @@
                         $("#FAMILLE").val(FAMILLE).trigger("change");
                         $("#FAMILLE").attr("disabled", true);
                         $("#FAMILLEH").val(FAMILLE);
-                        
+
                     }
                 });
             }
@@ -206,6 +208,12 @@
                     required: true
                 },
                 CODE_A_BARRE: {
+                    required: true
+                },
+                FAMILLE: {
+                    required: true
+                },
+                FOURNISSEUR: {
                     required: true
                 }
             }

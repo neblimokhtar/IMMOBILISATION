@@ -16,14 +16,14 @@ namespace IMMOBILISATION.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class LIEUX : ReportClass {
+    public class FICHE_TECHNIQUE : ReportClass {
         
-        public LIEUX() {
+        public FICHE_TECHNIQUE() {
         }
         
         public override string ResourceName {
             get {
-                return "LIEUX.rpt";
+                return "FICHE_TECHNIQUE.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace IMMOBILISATION.Reports {
         
         public override string FullResourceName {
             get {
-                return "IMMOBILISATION.Reports.LIEUX.rpt";
+                return "IMMOBILISATION.Reports.FICHE_TECHNIQUE.rpt";
             }
             set {
                 // Do nothing
@@ -90,9 +90,9 @@ namespace IMMOBILISATION.Reports {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedLIEUX : Component, ICachedReport {
+    public class CachedFICHE_TECHNIQUE : Component, ICachedReport {
         
-        public CachedLIEUX() {
+        public CachedFICHE_TECHNIQUE() {
         }
         
         [Browsable(false)]
@@ -129,7 +129,7 @@ namespace IMMOBILISATION.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            LIEUX rpt = new LIEUX();
+            FICHE_TECHNIQUE rpt = new FICHE_TECHNIQUE();
             rpt.Site = this.Site;
             return rpt;
         }
