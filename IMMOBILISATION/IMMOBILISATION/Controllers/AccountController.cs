@@ -60,7 +60,7 @@ namespace IMMOBILISATION.Controllers
         {
             WebSecurity.Logout();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login");
         }
 
         //
@@ -83,6 +83,19 @@ namespace IMMOBILISATION.Controllers
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
+                UserProfile user = new UserProfile() { UserName = model.UserName, Role = model.Role };
+                using (ImmobilisationEntities db = new ImmobilisationEntities())
+                {
+                    USERS_ADMINISTRATIONS MyUser = db.USERS_ADMINISTRATIONS.Where(Element => Element.Login == user.UserName).FirstOrDefault();
+                    if (MyUser == null)
+                    {
+                        MyUser = new USERS_ADMINISTRATIONS();
+                        MyUser.Login = user.UserName;
+                        MyUser.Role = user.Role;
+                        db.USERS_ADMINISTRATIONS.Add(MyUser);
+                        db.SaveChanges();
+                    }
+                }
                 try
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);

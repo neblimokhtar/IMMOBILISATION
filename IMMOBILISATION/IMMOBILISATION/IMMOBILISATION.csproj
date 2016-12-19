@@ -248,6 +248,9 @@
     <Compile Include="Models\TIERS.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\USERS_ADMINISTRATIONS.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\MOUVEMENT_GROUP.cs">
       <DependentUpon>MOUVEMENT_GROUP.rpt</DependentUpon>

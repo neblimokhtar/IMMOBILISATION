@@ -1,11 +1,19 @@
-﻿<div class="row" id="Content">
+﻿@using IMMOBILISATION.Models;
+@{
+    ImmobilisationEntities BD = new ImmobilisationEntities();
+    USERS_ADMINISTRATIONS CurrentUser = BD.USERS_ADMINISTRATIONS.Where(Element => Element.Login == User.Identity.Name).FirstOrDefault();
+}
+<div class="row" id="Content">
     <div class="row">
         <div class="col-lg-8">
         </div>
         <div class="col-lg-4">
             <div class="row pull-right" style="margin-right: 15px; margin-top: 15px;">
-                <button type="button" class="btn btn-w-m btn-success" id="EditBtn">
-                    <i class="fa fa-check-square-o" aria-hidden="true" style="margin-right: 5px;"></i>Editer</button>
+                @if (CurrentUser.Role == "Utilisateur")
+                {
+                    <button type="button" class="btn btn-w-m btn-success" id="EditBtn">
+                        <i class="fa fa-check-square-o" aria-hidden="true" style="margin-right: 5px;"></i>Editer</button>
+                }
                 <button type="button" class="btn btn-w-m btn-primary" id="PrintBtn">
                     <i class="fa fa-print" aria-hidden="true" style="margin-right: 5px;"></i>Imprimer</button>
 

@@ -1,4 +1,9 @@
-﻿<link href="~/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+﻿@using IMMOBILISATION.Models;
+@{
+    ImmobilisationEntities BD = new ImmobilisationEntities();
+    USERS_ADMINISTRATIONS CurrentUser = BD.USERS_ADMINISTRATIONS.Where(Element => Element.Login == User.Identity.Name).FirstOrDefault();
+}
+<link href="~/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
 <link href="~/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
 <link href="~/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
 <div class="row wrapper border-bottom white-bg page-heading">
@@ -19,8 +24,11 @@
                 <div class="ibox-title" style="padding-top: 4px;">
                     <h5 style="padding-top: 10px;">MOUVEMENTS</h5>
                     <div class="ibox-tools">
-                        <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("Form", "Mouvement", new { Mode = "Create", Code = "-1" }, null)'">
-                            <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Ajouter</span></button>
+                        @if (CurrentUser.Role == "Utilisateur")
+                        {
+                            <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("Form", "Mouvement", new { Mode = "Create", Code = "-1" }, null)'">
+                                <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Ajouter</span></button>
+                        }
                         <div class="btn-group">
                             <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;&nbsp;Imprimer <span class="caret"></span></button>
                             <ul class="dropdown-menu">
@@ -105,14 +113,18 @@
     </div>
 </div>
 <ul class='custom-menu'>
-    <li data-action="Edit"><i class="fa fa-pencil-square-o" style="margin-right: 3px;"></i>
-        Modifier</li>
-    <li data-action="Delete"><i class="fa fa-trash" style="margin-right: 3px;"></i>
-        Supprimer</li>
+    @if (CurrentUser.Role == "Utilisateur")
+    {
+        <li data-action="Edit"><i class="fa fa-pencil-square-o" style="margin-right: 3px;"></i>
+            Modifier</li>
+        <li data-action="Delete"><i class="fa fa-trash" style="margin-right: 3px;"></i>
+            Supprimer</li>
+        <li data-action="Back"><i class="fa fa-fast-backward" style="margin-right: 3px;"></i>
+            Retour</li>
+    }
     <li data-action="Print"><i class="fa fa-print" style="margin-right: 3px;"></i>
         Imprimer</li>
-    <li data-action="Back"><i class="fa fa-fast-backward" style="margin-right: 3px;"></i>
-        Retour</li>
+
 </ul>
 <script type="text/javascript" src="~/js/plugins/dataTables/jquery.dataTables.js"></script>
 <script type="text/javascript" src="~/js/plugins/dataTables/dataTables.bootstrap.js"></script>

@@ -14,6 +14,7 @@
           <EntitySet Name="MOUVEMENTS" EntityType="IMMOBILISATIONModel.Store.MOUVEMENTS" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="NATURES_BIENS" EntityType="IMMOBILISATIONModel.Store.NATURES_BIENS" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TIERS" EntityType="IMMOBILISATIONModel.Store.TIERS" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="USERS_ADMINISTRATIONS" EntityType="IMMOBILISATIONModel.Store.USERS_ADMINISTRATIONS" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_DETAILS_MOUVEMENTS_IMMOBILISATIONS" Association="IMMOBILISATIONModel.Store.FK_DETAILS_MOUVEMENTS_IMMOBILISATIONS">
             <End Role="IMMOBILISATIONS" EntitySet="IMMOBILISATIONS" />
             <End Role="DETAILS_MOUVEMENTS" EntitySet="DETAILS_MOUVEMENTS" />
@@ -153,6 +154,14 @@
           <Property Name="QUALITE" Type="nvarchar" MaxLength="50" />
           <Property Name="INTERLOCUTEUR" Type="nvarchar" MaxLength="50" />
           <Property Name="COMMENTAIRE" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="USERS_ADMINISTRATIONS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" />
+          <Property Name="Role" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_DETAILS_MOUVEMENTS_IMMOBILISATIONS">
           <End Role="IMMOBILISATIONS" Type="IMMOBILISATIONModel.Store.IMMOBILISATIONS" Multiplicity="0..1" />
@@ -327,6 +336,7 @@
             <End Role="TIERS" EntitySet="TIERS" />
             <End Role="MOUVEMENTS" EntitySet="MOUVEMENTS" />
           </AssociationSet>
+          <EntitySet Name="USERS_ADMINISTRATIONS" EntityType="IMMOBILISATIONModel.USERS_ADMINISTRATIONS" />
         </EntityContainer>
         <EntityType Name="FAMILLES_IMMOBILISATIONS">
           <Key>
@@ -567,6 +577,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="USERS_ADMINISTRATIONS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Login" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Role" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -676,6 +694,15 @@
                 <ScalarProperty Name="DISTANCE" ColumnName="DISTANCE" />
                 <ScalarProperty Name="DATE_MOUVEMENT" ColumnName="DATE_MOUVEMENT" />
                 <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USERS_ADMINISTRATIONS">
+            <EntityTypeMapping TypeName="IMMOBILISATIONModel.USERS_ADMINISTRATIONS">
+              <MappingFragment StoreEntitySet="USERS_ADMINISTRATIONS">
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

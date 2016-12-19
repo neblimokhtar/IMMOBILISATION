@@ -11,7 +11,7 @@ namespace IMMOBILISATION.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class TIERS
     {
         public TIERS()
@@ -20,7 +20,7 @@ namespace IMMOBILISATION.Models
             this.MOUVEMENTS = new HashSet<MOUVEMENTS>();
             this.MOUVEMENTS1 = new HashSet<MOUVEMENTS>();
         }
-    
+
         public int ID { get; set; }
         public string TYPE { get; set; }
         public string INTITULE { get; set; }
@@ -28,7 +28,7 @@ namespace IMMOBILISATION.Models
         public string QUALITE { get; set; }
         public string INTERLOCUTEUR { get; set; }
         public string COMMENTAIRE { get; set; }
-    
+
         public virtual ICollection<IMMOBILISATIONS> IMMOBILISATIONS { get; set; }
         public virtual ICollection<MOUVEMENTS> MOUVEMENTS { get; set; }
         public virtual ICollection<MOUVEMENTS> MOUVEMENTS1 { get; set; }

@@ -25,6 +25,7 @@ namespace IMMOBILISATION.Models
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public string UserName { get; set; }
+        public string Role { get; set; }
     }
 
     public class RegisterExternalLoginModel
@@ -86,6 +87,8 @@ namespace IMMOBILISATION.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public string Role { get; set; }
     }
 
     public class ExternalLogin

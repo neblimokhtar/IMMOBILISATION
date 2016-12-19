@@ -1,4 +1,9 @@
-﻿<link href="~/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+﻿@using IMMOBILISATION.Models;
+@{
+    ImmobilisationEntities BD = new ImmobilisationEntities();
+    USERS_ADMINISTRATIONS CurrentUser = BD.USERS_ADMINISTRATIONS.Where(Element => Element.Login == User.Identity.Name).FirstOrDefault();
+}
+<link href="~/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
 <link href="~/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
 <link href="~/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
 <div class="row wrapper border-bottom white-bg page-heading">
@@ -19,8 +24,11 @@
                 <div class="ibox-title" style="padding-top: 4px;">
                     <h5 style="padding-top: 10px;">NATURES DES BIENS</h5>
                     <div class="ibox-tools">
-                        <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("Form", "NatureBien", new { Mode = "Create", Code = "-1" }, null)'">
-                            <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Ajouter</span></button>
+                        @if (CurrentUser.Role == "Utilisateur")
+                        {
+                            <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("Form", "NatureBien", new { Mode = "Create", Code = "-1" }, null)'">
+                                <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Ajouter</span></button>
+                        }
                         <button class="btn btn-primary " type="button" id="PrintBtn">
                             <i class="fa fa-print" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Imprimer</span></button>
                     </div>
@@ -73,6 +81,9 @@
         "order": []
     });
     $('#Tableau tbody').on('contextmenu', 'tr', function (event) {
+         @if (CurrentUser.Role == "Utilisateur")
+         {
+        <text>
         if (event.button == 2) {
             window.myValue = $(this).attr('id');
             event.preventDefault();
@@ -82,6 +93,8 @@
                 left: (event.pageX) - Width + "px"
             });
         }
+        </text>
+         }
     });
     $(document).bind("mousedown", function (e) {
         if (!$(e.target).parents(".custom-menu").length > 0) {

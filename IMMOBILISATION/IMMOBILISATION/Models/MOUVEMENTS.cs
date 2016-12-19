@@ -13,7 +13,7 @@ namespace IMMOBILISATION.Models
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations.Schema;
-    
+
     public partial class MOUVEMENTS
     {
         public MOUVEMENTS()
@@ -40,7 +40,7 @@ namespace IMMOBILISATION.Models
         public Nullable<int> AU { get; set; }
         public Nullable<int> CLIENT { get; set; }
         public Nullable<int> TRANSPORTEUR { get; set; }
-    
+
         public virtual ICollection<DETAILS_MOUVEMENTS> DETAILS_MOUVEMENTS { get; set; }
         [ForeignKey("DU")]
         public virtual LIEUX DEPARTS { get; set; }

@@ -33,5 +33,6 @@ namespace IMMOBILISATION.Models
         public DbSet<IMMOBILISATIONS> IMMOBILISATIONS { get; set; }
         public DbSet<DETAILS_MOUVEMENTS> DETAILS_MOUVEMENTS { get; set; }
         public DbSet<MOUVEMENTS> MOUVEMENTS { get; set; }
+        public DbSet<USERS_ADMINISTRATIONS> USERS_ADMINISTRATIONS { get; set; }
     }
 }

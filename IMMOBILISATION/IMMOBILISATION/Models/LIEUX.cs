@@ -12,7 +12,7 @@ namespace IMMOBILISATION.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    
+
     public partial class LIEUX
     {
         public LIEUX()
@@ -33,7 +33,7 @@ namespace IMMOBILISATION.Models
         [DefaultValue(0)]
         public double LONGITUDE { get; set; }
         public string CODE_POSTAL { get; set; }
-    
+
         public virtual ICollection<MOUVEMENTS> MOUVEMENTS { get; set; }
         public virtual ICollection<MOUVEMENTS> MOUVEMENTS1 { get; set; }
     }

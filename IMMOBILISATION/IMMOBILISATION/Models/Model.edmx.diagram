@@ -23,6 +23,7 @@
         <AssociationConnector Association="IMMOBILISATIONModel.FK_MOUVEMENTS_RETOURS" />
         <AssociationConnector Association="IMMOBILISATIONModel.FK_MOUVEMENTS_CLIENTS" />
         <AssociationConnector Association="IMMOBILISATIONModel.FK_MOUVEMENTS_TRANSPORTEURS" />
+        <EntityTypeShape EntityType="IMMOBILISATIONModel.USERS_ADMINISTRATIONS" Width="1.5" PointX="2.1233285898917025" PointY="24.096665065780591" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
