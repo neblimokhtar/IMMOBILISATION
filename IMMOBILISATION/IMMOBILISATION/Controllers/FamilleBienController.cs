@@ -23,19 +23,28 @@ namespace IMMOBILISATION.Controllers
         }
         public ActionResult Form(string Mode, int Code)
         {
-            FAMILLES_IMMOBILISATIONS Element = new FAMILLES_IMMOBILISATIONS();
-            if (Mode == "Create")
+            USERS_ADMINISTRATIONS CurrentUser = BD.USERS_ADMINISTRATIONS.Where(Elt => Elt.Login == User.Identity.Name).FirstOrDefault();
+            if (CurrentUser.Role != "Visiteur")
             {
-                ViewBag.TITRE = "NOUVELLE FAMILLE DE BIEN";
+                FAMILLES_IMMOBILISATIONS Element = new FAMILLES_IMMOBILISATIONS();
+                if (Mode == "Create")
+                {
+                    ViewBag.TITRE = "NOUVELLE FAMILLE DE BIEN";
+                }
+                if (Mode == "Edit")
+                {
+                    Element = BD.FAMILLES_IMMOBILISATIONS.Find(Code);
+                    ViewBag.TITRE = "MODIFIER FAMILLE DE BIEN";
+                }
+                ViewBag.Mode = Mode;
+                ViewBag.Code = Code;
+                return View(Element);
             }
-            if (Mode == "Edit")
+            else
             {
-                Element = BD.FAMILLES_IMMOBILISATIONS.Find(Code);
-                ViewBag.TITRE = "MODIFIER FAMILLE DE BIEN";
+                return RedirectToAction("Index");
             }
-            ViewBag.Mode = Mode;
-            ViewBag.Code = Code;
-            return View(Element);
+
         }
         public JsonResult GetAllNature()
         {

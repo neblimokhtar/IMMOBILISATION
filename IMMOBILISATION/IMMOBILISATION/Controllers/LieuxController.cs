@@ -24,19 +24,27 @@ namespace IMMOBILISATION.Controllers
         }
         public ActionResult Form(string Mode, int Code)
         {
-            LIEUX Element = new LIEUX();
-            if (Mode == "Create")
+            USERS_ADMINISTRATIONS CurrentUser = BD.USERS_ADMINISTRATIONS.Where(Elt => Elt.Login == User.Identity.Name).FirstOrDefault();
+            if (CurrentUser.Role != "Visiteur")
             {
-                ViewBag.TITRE = "NOUVEAU LIEU";
+                LIEUX Element = new LIEUX();
+                if (Mode == "Create")
+                {
+                    ViewBag.TITRE = "NOUVEAU LIEU";
+                }
+                if (Mode == "Edit")
+                {
+                    Element = BD.LIEUX.Find(Code);
+                    ViewBag.TITRE = "MODIFIER UN LIEU";
+                }
+                ViewBag.Mode = Mode;
+                ViewBag.Code = Code;
+                return View(Element);
             }
-            if (Mode == "Edit")
+            else
             {
-                Element = BD.LIEUX.Find(Code);
-                ViewBag.TITRE = "MODIFIER UN LIEU";
+                return RedirectToAction("Index");
             }
-            ViewBag.Mode = Mode;
-            ViewBag.Code = Code;
-            return View(Element);
         }
         [HttpPost]
         public ActionResult SendForm(string Mode, string Code)
@@ -120,6 +128,11 @@ namespace IMMOBILISATION.Controllers
         public ActionResult Distance()
         {
             List<LIEUX> Liste = BD.LIEUX.ToList();
+            return View(Liste);
+        }
+        public ActionResult Emplacement()
+        {
+            List<IMMOBILISATIONS> Liste = BD.IMMOBILISATIONS.ToList();
             return View(Liste);
         }
         public ActionResult Print()

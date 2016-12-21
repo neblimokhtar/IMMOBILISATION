@@ -11,11 +11,9 @@ namespace IMMOBILISATION.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class FICHES_TECHNIQUES
     {
-        private string _color = "#5367ce";
         public int ID { get; set; }
         public string MARQUE { get; set; }
         public byte[] PHOTO { get; set; }
@@ -23,16 +21,12 @@ namespace IMMOBILISATION.Models
         public string COMPOSITION { get; set; }
         public string LIEU_FABRICATION { get; set; }
         public string DIMENSION { get; set; }
-        public string COULEUR
-        {
-            get { return _color; }
-            set { _color = value; }
-        }
+        public string COULEUR { get; set; }
         public string POID { get; set; }
         public string PUISSANCE { get; set; }
         public string CONSOMMATION { get; set; }
         public Nullable<int> IMMOBILISATION { get; set; }
-        [ForeignKey("IMMOBILISATION")]
+    
         public virtual IMMOBILISATIONS IMMOBILISATIONS { get; set; }
     }
 }

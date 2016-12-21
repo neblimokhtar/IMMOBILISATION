@@ -71,6 +71,21 @@ namespace IMMOBILISATION.Controllers
         {
             return View();
         }
+        public ActionResult AllUser()
+        {
+            ImmobilisationEntities db = new ImmobilisationEntities();
+
+            USERS_ADMINISTRATIONS CurrentUser = db.USERS_ADMINISTRATIONS.Where(Elt => Elt.Login == User.Identity.Name).FirstOrDefault();
+            if (CurrentUser.Role != "Administrateur")
+            {
+                return RedirectToAction("LogOff");
+            }
+            else
+            {
+                List<USERS_ADMINISTRATIONS> Liste = db.USERS_ADMINISTRATIONS.ToList();
+                return View(Liste);
+            }
+        }
 
         //
         // POST: /Account/Register
@@ -92,6 +107,7 @@ namespace IMMOBILISATION.Controllers
                         MyUser = new USERS_ADMINISTRATIONS();
                         MyUser.Login = user.UserName;
                         MyUser.Role = user.Role;
+                        MyUser.Password = model.Password;
                         db.USERS_ADMINISTRATIONS.Add(MyUser);
                         db.SaveChanges();
                     }

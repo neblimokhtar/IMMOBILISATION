@@ -11,18 +11,18 @@ namespace IMMOBILISATION.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class NATURES_BIENS
     {
         public NATURES_BIENS()
         {
             this.FAMILLES_IMMOBILISATIONS = new HashSet<FAMILLES_IMMOBILISATIONS>();
         }
-
+    
         public int ID { get; set; }
         public string NATURE { get; set; }
         public string TYPE { get; set; }
-
+    
         public virtual ICollection<FAMILLES_IMMOBILISATIONS> FAMILLES_IMMOBILISATIONS { get; set; }
     }
 }

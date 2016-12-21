@@ -59,37 +59,45 @@ namespace IMMOBILISATION.Controllers
         }
         public ActionResult Form(string Mode, int Code)
         {
-            MOUVEMENTS Element = new MOUVEMENTS();
-            if (Mode == "Create")
+            USERS_ADMINISTRATIONS CurrentUser = BD.USERS_ADMINISTRATIONS.Where(Elt => Elt.Login == User.Identity.Name).FirstOrDefault();
+            if (CurrentUser.Role != "Visiteur")
             {
-                ViewBag.TITRE = "NOUVEAU MOUVEMENT";
-                ViewBag.Immo = string.Empty;
+                MOUVEMENTS Element = new MOUVEMENTS();
+                if (Mode == "Create")
+                {
+                    ViewBag.TITRE = "NOUVEAU MOUVEMENT";
+                    ViewBag.Immo = string.Empty;
+                }
+                if (Mode == "Edit")
+                {
+                    Element = BD.MOUVEMENTS.Find(Code);
+                    ViewBag.TITRE = "MODIFIER UN MOUVEMENT";
+                    ViewBag.Immo = GetDetailImmobilisation(Code);
+                    List<IMMOBILISATIONS> Liste = BD.DETAILS_MOUVEMENTS.Where(Elt => Elt.MOUVEMENTS.ID == Code).Select(Elt => Elt.IMMOBILISATIONS).ToList();
+                    foreach (IMMOBILISATIONS immobilisation in BD.IMMOBILISATIONS.Where(Elt => Elt.DISPONIBILITE).ToList())
+                    {
+                        Liste.Add(immobilisation);
+                    }
+                    //foreach (IMMOBILISATIONS Elt in Liste)
+                    //{
+                    //    Elt.DISPONIBILITE = true;
+                    //    BD.SaveChanges();
+                    //}
+                    Liste = Liste.Distinct().ToList();
+                    ViewBag.Liste = Liste;
+                    if (Element.TYPE == "RETOUR")
+                    {
+                        return RedirectToAction("Retour", "Mouvement", new { @Code = @Code });
+                    }
+                }
+                ViewBag.Mode = Mode;
+                ViewBag.Code = Code;
+                return View(Element);
             }
-            if (Mode == "Edit")
+            else
             {
-                Element = BD.MOUVEMENTS.Find(Code);
-                ViewBag.TITRE = "MODIFIER UN MOUVEMENT";
-                ViewBag.Immo = GetDetailImmobilisation(Code);
-                List<IMMOBILISATIONS> Liste = BD.DETAILS_MOUVEMENTS.Where(Elt => Elt.MOUVEMENTS.ID == Code).Select(Elt => Elt.IMMOBILISATIONS).ToList();
-                foreach (IMMOBILISATIONS immobilisation in BD.IMMOBILISATIONS.Where(Elt => Elt.DISPONIBILITE).ToList())
-                {
-                    Liste.Add(immobilisation);
-                }
-                //foreach (IMMOBILISATIONS Elt in Liste)
-                //{
-                //    Elt.DISPONIBILITE = true;
-                //    BD.SaveChanges();
-                //}
-                Liste = Liste.Distinct().ToList();
-                ViewBag.Liste = Liste;
-                if (Element.TYPE == "RETOUR")
-                {
-                    return RedirectToAction("Retour", "Mouvement", new { @Code = @Code });
-                }
+                return RedirectToAction("Index");
             }
-            ViewBag.Mode = Mode;
-            ViewBag.Code = Code;
-            return View(Element);
         }
         [HttpPost]
         public ActionResult SendForm(string Mode, string Code)
@@ -328,7 +336,7 @@ namespace IMMOBILISATION.Controllers
                              AU = Mouvement.RETOURS != null ? Mouvement.RETOURS.INTITULE : string.Empty,
                              CLIENT = Mouvement.CLIENTS != null ? Mouvement.CLIENTS.INTITULE : string.Empty,
                              TRANSPORTEUR = Mouvement.TRANSPORTEURS != null ? Mouvement.TRANSPORTEURS.INTITULE : string.Empty,
-                             IMMOBILISATION=Element.IMMOBILISATIONS!=null ? Element.IMMOBILISATIONS.CODE:string.Empty,
+                             IMMOBILISATION = Element.IMMOBILISATIONS != null ? Element.IMMOBILISATIONS.CODE : string.Empty,
                              FAMILLE = Element.IMMOBILISATIONS != null ? Element.IMMOBILISATIONS.FAMILLES_IMMOBILISATIONS.FAMILLE : string.Empty,
                          };
             ReportDocument rptH = new ReportDocument();

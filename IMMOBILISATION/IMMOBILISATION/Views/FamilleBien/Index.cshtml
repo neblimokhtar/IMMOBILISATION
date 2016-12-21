@@ -24,7 +24,7 @@
                 <div class="ibox-title" style="padding-top: 4px;">
                     <h5 style="padding-top: 10px;">FAMILLES DES BIENS</h5>
                     <div class="ibox-tools">
-                        @if (CurrentUser.Role == "Utilisateur")
+                        @if (CurrentUser.Role != "Visiteur")
                         {
                             <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("Form", "FamilleBien", new { Mode = "Create", Code = "-1" }, null)'">
                                 <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Ajouter</span></button>
@@ -91,7 +91,7 @@
         "order": []
     });
     $('#Tableau tbody').on('contextmenu', 'tr', function (event) {
-         @if (CurrentUser.Role == "Utilisateur")
+         @if (CurrentUser.Role != "Visiteur")
          {
         <text>
         if (event.button == 2) {

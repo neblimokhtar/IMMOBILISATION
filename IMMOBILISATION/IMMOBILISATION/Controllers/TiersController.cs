@@ -27,19 +27,26 @@ namespace IMMOBILISATION.Controllers
         }
         public ActionResult Form(string Mode, int Code)
         {
-            TIERS Element = new TIERS();
-            if (Mode == "Create")
+            USERS_ADMINISTRATIONS CurrentUser = BD.USERS_ADMINISTRATIONS.Where(Elt => Elt.Login == User.Identity.Name).FirstOrDefault();
+            if (CurrentUser.Role != "Visiteur")
             {
-                ViewBag.TITRE = "NOUVEAU TIERS";
+                TIERS Element = new TIERS();
+                if (Mode == "Create")
+                {
+                    ViewBag.TITRE = "NOUVEAU TIERS";
+                }
+                if (Mode == "Edit")
+                {
+                    Element = BD.TIERS.Find(Code);
+                    ViewBag.TITRE = "MODIFIER UN TIERS";
+                }
+                ViewBag.Mode = Mode;
+                ViewBag.Code = Code;
+                return View(Element);
             }
-            if (Mode == "Edit")
-            {
-                Element = BD.TIERS.Find(Code);
-                ViewBag.TITRE = "MODIFIER UN TIERS";
+            else {
+                return RedirectToAction("Index");
             }
-            ViewBag.Mode = Mode;
-            ViewBag.Code = Code;
-            return View(Element);
         }
         [HttpPost]
         public ActionResult SendForm(string Mode, string Code)

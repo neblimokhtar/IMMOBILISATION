@@ -51,19 +51,27 @@ namespace IMMOBILISATION.Controllers
         }
         public ActionResult Form(string Mode, int Code)
         {
-            IMMOBILISATIONS Element = new IMMOBILISATIONS();
-            if (Mode == "Create")
+            USERS_ADMINISTRATIONS CurrentUser = BD.USERS_ADMINISTRATIONS.Where(Elt => Elt.Login == User.Identity.Name).FirstOrDefault();
+            if (CurrentUser.Role != "Visiteur")
             {
-                ViewBag.TITRE = "NOUVELLE IMMOBILISATION";
+                IMMOBILISATIONS Element = new IMMOBILISATIONS();
+                if (Mode == "Create")
+                {
+                    ViewBag.TITRE = "NOUVELLE IMMOBILISATION";
+                }
+                if (Mode == "Edit")
+                {
+                    Element = BD.IMMOBILISATIONS.Find(Code);
+                    ViewBag.TITRE = "MODIFIER UNE IMMOBILISATION";
+                }
+                ViewBag.Mode = Mode;
+                ViewBag.Code = Code;
+                return View(Element);
             }
-            if (Mode == "Edit")
+            else
             {
-                Element = BD.IMMOBILISATIONS.Find(Code);
-                ViewBag.TITRE = "MODIFIER UNE IMMOBILISATION";
+                return RedirectToAction("Index");
             }
-            ViewBag.Mode = Mode;
-            ViewBag.Code = Code;
-            return View(Element);
         }
         public JsonResult GetAllFamille()
         {

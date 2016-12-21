@@ -9,7 +9,7 @@
         </div>
         <div class="col-lg-4">
             <div class="row pull-right" style="margin-right: 15px; margin-top: 15px;">
-                @if (CurrentUser.Role == "Utilisateur")
+                @if (CurrentUser.Role != "Visiteur")
                 {
                     <button type="button" class="btn btn-w-m btn-success" id="EditBtn">
                         <i class="fa fa-check-square-o" aria-hidden="true" style="margin-right: 5px;"></i>Editer</button>

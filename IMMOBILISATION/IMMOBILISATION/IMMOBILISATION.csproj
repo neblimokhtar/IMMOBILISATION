@@ -436,6 +436,7 @@
     <Content Include="img\saturation.png" />
     <Content Include="js\bootstrap-colorpicker.min.js" />
     <Content Include="js\jquery.browser.min.js" />
+    <Content Include="js\oms.min.js" />
     <Content Include="Models\Model.edmx.diagram">
       <DependentUpon>Model.edmx</DependentUpon>
     </Content>
@@ -676,6 +677,8 @@
     <Content Include="Views\Mouvement\Index.cshtml" />
     <Content Include="Views\Mouvement\Form.cshtml" />
     <Content Include="Views\Mouvement\Retour.cshtml" />
+    <Content Include="Views\Account\AllUser.cshtml" />
+    <Content Include="Views\Lieux\Emplacement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

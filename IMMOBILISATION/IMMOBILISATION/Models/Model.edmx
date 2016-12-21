@@ -162,6 +162,7 @@
           <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Login" Type="nvarchar" MaxLength="50" />
           <Property Name="Role" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_DETAILS_MOUVEMENTS_IMMOBILISATIONS">
           <End Role="IMMOBILISATIONS" Type="IMMOBILISATIONModel.Store.IMMOBILISATIONS" Multiplicity="0..1" />
@@ -584,6 +585,7 @@
           <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Login" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Role" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -701,6 +703,7 @@
           <EntitySetMapping Name="USERS_ADMINISTRATIONS">
             <EntityTypeMapping TypeName="IMMOBILISATIONModel.USERS_ADMINISTRATIONS">
               <MappingFragment StoreEntitySet="USERS_ADMINISTRATIONS">
+                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
                 <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="ID" ColumnName="ID" />

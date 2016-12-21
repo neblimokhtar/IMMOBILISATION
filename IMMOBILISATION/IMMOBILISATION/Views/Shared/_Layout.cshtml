@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using IMMOBILISATION.Models;
+@{
+    ImmobilisationEntities BD = new ImmobilisationEntities();
+    USERS_ADMINISTRATIONS CurrentUser = BD.USERS_ADMINISTRATIONS.Where(Element => Element.Login == User.Identity.Name).FirstOrDefault();
+}
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="utf-8" />
@@ -66,6 +71,7 @@
                     <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i><span class="nav-label">Lieux</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="/Lieux/">Lieux des biens</a></li>
+                            <li><a href="/Lieux/Emplacement">Emplacement des biens</a></li>
                             <li><a href="/Lieux/Coordonee">Coordonées Géographiques</a></li>
                             <li><a href="/Lieux/Distance">Distances et Itinéraire</a></li>
                         </ul>
@@ -75,6 +81,13 @@
                             <li><a href="/Tiers/">Tiers</a></li>
                             <li><a href="/NatureBien/">Natures Biens</a></li>
                             <li><a href="/FamilleBien/">Famille Biens</a></li>
+                            @if (CurrentUser != null)
+                            {
+                                if (CurrentUser.Role == "Administrateur")
+                                {
+                                <li><a href="/Account/AllUser">Gestion des utilisateurs</a></li>
+                                }
+                            }
                         </ul>
                     </li>
                 </ul>
@@ -87,7 +100,10 @@
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i></a>
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
-                        <li><span class="m-r-sm text-muted welcome-message">@User.Identity.Name</span> </li>
+                        <li><span class="m-r-sm text-muted welcome-message">@User.Identity.Name ( @if (CurrentUser != null)
+                                                                                                 {
+                                                                                                     @CurrentUser.Role
+                                                                                                 } )</span> </li>
                         <li style="margin-right: 0px;">
                             @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
                             {

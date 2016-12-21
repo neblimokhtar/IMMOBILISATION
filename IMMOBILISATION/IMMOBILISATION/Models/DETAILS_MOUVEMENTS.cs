@@ -11,16 +11,14 @@ namespace IMMOBILISATION.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class DETAILS_MOUVEMENTS
     {
         public int ID { get; set; }
         public Nullable<int> MOUVEMENT { get; set; }
         public Nullable<int> IMMOBILISATION { get; set; }
-        [ForeignKey("IMMOBILISATION")]
+    
         public virtual IMMOBILISATIONS IMMOBILISATIONS { get; set; }
-        [ForeignKey("MOUVEMENT")]
         public virtual MOUVEMENTS MOUVEMENTS { get; set; }
     }
 }

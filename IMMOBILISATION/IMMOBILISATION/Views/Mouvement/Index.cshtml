@@ -24,7 +24,7 @@
                 <div class="ibox-title" style="padding-top: 4px;">
                     <h5 style="padding-top: 10px;">MOUVEMENTS</h5>
                     <div class="ibox-tools">
-                        @if (CurrentUser.Role == "Utilisateur")
+                        @if (CurrentUser.Role != "Visiteur")
                         {
                             <button class="btn btn-success " type="button" onclick="location.href='@Url.Action("Form", "Mouvement", new { Mode = "Create", Code = "-1" }, null)'">
                                 <i class="fa fa-plus-square" aria-hidden="true"></i>&nbsp;&nbsp;<span class="bold">Ajouter</span></button>
@@ -113,7 +113,7 @@
     </div>
 </div>
 <ul class='custom-menu'>
-    @if (CurrentUser.Role == "Utilisateur")
+    @if (CurrentUser.Role != "Visiteur")
     {
         <li data-action="Edit"><i class="fa fa-pencil-square-o" style="margin-right: 3px;"></i>
             Modifier</li>
