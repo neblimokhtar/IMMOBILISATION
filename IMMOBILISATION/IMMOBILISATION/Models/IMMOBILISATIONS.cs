@@ -11,7 +11,9 @@ namespace IMMOBILISATION.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class IMMOBILISATIONS
     {
         public IMMOBILISATIONS()
@@ -19,21 +21,39 @@ namespace IMMOBILISATION.Models
             this.FICHES_TECHNIQUES = new HashSet<FICHES_TECHNIQUES>();
             this.DETAILS_MOUVEMENTS = new HashSet<DETAILS_MOUVEMENTS>();
         }
-    
+        private DateTime _date = DateTime.Today;
+        private Boolean _boolean = true;
+
         public int ID { get; set; }
         public string TYPE { get; set; }
         public string CODE { get; set; }
         public string DESIGNATION { get; set; }
+        [DefaultValue(0)]
         public double VALEUR_ACQUISITION_TTC { get; set; }
-        public System.DateTime DATE_AQUISITION { get; set; }
-        public System.DateTime DATE_MISE_EN_SERVICE { get; set; }
+        public System.DateTime DATE_AQUISITION
+        {
+            get { return _date; }
+            set { _date = value; }
+        }
+        public System.DateTime DATE_MISE_EN_SERVICE
+        {
+            get { return _date; }
+            set { _date = value; }
+        }
+
         public Nullable<int> FOURNISSEUR { get; set; }
         public Nullable<int> FAMILLE { get; set; }
         public string CODE_A_BARRE { get; set; }
-        public bool DISPONIBILITE { get; set; }
-    
+        public bool DISPONIBILITE
+        {
+            get { return _boolean; }
+            set { _boolean = value; }
+        }
+
         public virtual ICollection<FICHES_TECHNIQUES> FICHES_TECHNIQUES { get; set; }
+        [ForeignKey("FAMILLE")]
         public virtual FAMILLES_IMMOBILISATIONS FAMILLES_IMMOBILISATIONS { get; set; }
+        [ForeignKey("FOURNISSEUR")]
         public virtual TIERS TIERS { get; set; }
         public virtual ICollection<DETAILS_MOUVEMENTS> DETAILS_MOUVEMENTS { get; set; }
     }

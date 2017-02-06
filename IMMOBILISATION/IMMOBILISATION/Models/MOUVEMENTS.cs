@@ -11,27 +11,44 @@ namespace IMMOBILISATION.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class MOUVEMENTS
     {
         public MOUVEMENTS()
         {
             this.DETAILS_MOUVEMENTS = new HashSet<DETAILS_MOUVEMENTS>();
         }
-    
+        private DateTime _date = DateTime.Today;
+        private string _type = "SORTIE";
+
         public int ID { get; set; }
-        public string TYPE { get; set; }
-        public System.DateTime DATE_MOUVEMENT { get; set; }
+        public string TYPE
+        {
+            get { return _type; }
+            set { _type = value; }
+        }
+        public System.DateTime DATE_MOUVEMENT
+        {
+            get { return _date; }
+            set { _date = value; }
+        }
+        [DefaultValue(0)]
         public double DISTANCE { get; set; }
         public Nullable<int> DU { get; set; }
         public Nullable<int> AU { get; set; }
         public Nullable<int> CLIENT { get; set; }
         public Nullable<int> TRANSPORTEUR { get; set; }
-    
+
         public virtual ICollection<DETAILS_MOUVEMENTS> DETAILS_MOUVEMENTS { get; set; }
+        [ForeignKey("DU")]
         public virtual LIEUX DEPARTS { get; set; }
+        [ForeignKey("AU")]
         public virtual LIEUX RETOURS { get; set; }
+        [ForeignKey("CLIENT")]
         public virtual TIERS CLIENTS { get; set; }
+        [ForeignKey("TRANSPORTEUR")]
         public virtual TIERS TRANSPORTEURS { get; set; }
     }
 }

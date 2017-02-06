@@ -1,0 +1,87 @@
+﻿@using IMMOBILISATION.Models;
+@{
+    ImmobilisationEntities BD = new ImmobilisationEntities();
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>EMPLACEMENT DES BIENS</h2>
+        <ol class="breadcrumb">
+            <li><a>LIEUX</a> </li>
+            <li class="active"><strong>EMPLACEMENT DES BIENS</strong> </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div id="dvMap" style="width: 900px; height: 700px">
+        </div>
+    </div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCp5k2CvKy62vsK5TpTTVRB2jazKpOXICs"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var markers = [];
+        @foreach (var Item in Model)
+        {
+            int ids = (int)Item.ID;
+            MOUVEMENTS mouvement = BD.MOUVEMENTS.Where(Elt => Elt.RETOURS.ID == ids && Elt.TYPE == "SORTIE").ToList().LastOrDefault();
+            string immobilisation = string.Empty;
+            if (mouvement != null)
+            {
+                List<DETAILS_MOUVEMENTS> liste = BD.DETAILS_MOUVEMENTS.Where(Elt => Elt.MOUVEMENTS.ID == mouvement.ID).ToList();
+                foreach (DETAILS_MOUVEMENTS Element in liste)
+                {
+                    if (!Element.IMMOBILISATIONS.DISPONIBILITE)
+                    {
+                        immobilisation += Element.IMMOBILISATIONS.CODE + " ; ";
+                    }
+                }
+            }        
+        <text>
+        var lat = "@Item.LATITUDE";
+        var lng = "@Item.LONGITUDE";
+        lat = lat.replace(",", ".");
+        lng = lng.replace(",", ".");
+        markers.push({ "title": "@immobilisation", "lat": lat, "lng": lng, "description": "@immobilisation" });
+        </text>
+            
+        }
+        window.onload = function () {
+            LoadMap();
+        }
+        function LoadMap() {
+            var mapOptions = {
+                center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+                zoom: 10,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+
+            //Create and open InfoWindow.
+            var infoWindow = new google.maps.InfoWindow();
+
+            for (var i = 0; i < markers.length; i++) {
+                var data = markers[i];
+                var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map,
+                    title: data.title,
+                    animation: google.maps.Animation.DROP,
+                });
+
+                //Attach click event to the marker.
+                (function (marker, data) {
+                    google.maps.event.addListener(marker, "click", function (e) {
+                        //Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
+                        infoWindow.setContent("<div style = 'width:200px;min-height:40px'>" + data.description + "</div>");
+                        infoWindow.open(map, marker);
+                    });
+                })(marker, data);
+            }
+        }
+    });
+
+</script>

@@ -336,14 +336,17 @@ namespace IMMOBILISATION.Controllers
                              AU = Mouvement.RETOURS != null ? Mouvement.RETOURS.INTITULE : string.Empty,
                              CLIENT = Mouvement.CLIENTS != null ? Mouvement.CLIENTS.INTITULE : string.Empty,
                              TRANSPORTEUR = Mouvement.TRANSPORTEURS != null ? Mouvement.TRANSPORTEURS.INTITULE : string.Empty,
-                             IMMOBILISATION = Element.IMMOBILISATIONS != null ? Element.IMMOBILISATIONS.CODE : string.Empty,
+                             IMMOBILISATION = Element.IMMOBILISATIONS != null ? Element.IMMOBILISATIONS.DESIGNATION : string.Empty,
                              FAMILLE = Element.IMMOBILISATIONS != null ? Element.IMMOBILISATIONS.FAMILLES_IMMOBILISATIONS.FAMILLE : string.Empty,
+                             REFERENCE = Element.IMMOBILISATIONS != null ? Element.IMMOBILISATIONS.CODE : string.Empty,
+                             NUMERO = Mouvement.ID.ToString(),
+
                          };
             ReportDocument rptH = new ReportDocument();
-            string FileName = Server.MapPath("/Reports/MOUVEMENT.rpt");
+            string FileName = Server.MapPath("/Reports/BON_MOUVEMENT.rpt");
             rptH.Load(FileName);
             rptH.SetDataSource(dt);
-            rptH.SummaryInfo.ReportTitle = "Detail du mouvement";
+            //rptH.SummaryInfo.ReportTitle = "Detail du mouvement";
             Stream stream = rptH.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             return File(stream, "application/pdf");
         }

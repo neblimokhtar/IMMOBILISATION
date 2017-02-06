@@ -445,6 +445,25 @@ namespace IMMOBILISATION.Controllers
             Stream stream = rptH.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             return File(stream, "application/pdf");
         }
+        public ActionResult Destruction(string Code)
+        {
+            int ID = int.Parse(Code);
+            IMMOBILISATIONS Immobilisation = BD.IMMOBILISATIONS.Find(ID);
+            Immobilisation.DISPONIBILITE = false;
+            BD.SaveChanges();
+            dynamic dt = new
+            {
+                NOM = Immobilisation.DESIGNATION,
+                DATE = DateTime.Today.ToShortDateString(),
+            };
+            ReportDocument rptH = new ReportDocument();
+            string FileName = Server.MapPath("/Reports/DESTRUCTION.rpt");
+            rptH.Load(FileName);
+            rptH.SetDataSource(new[] { dt });
+            rptH.SummaryInfo.ReportTitle = "";
+            Stream stream = rptH.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            return File(stream, "application/pdf");
+        }
 
     }
 }

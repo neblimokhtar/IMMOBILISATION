@@ -135,6 +135,11 @@ namespace IMMOBILISATION.Controllers
             List<IMMOBILISATIONS> Liste = BD.IMMOBILISATIONS.ToList();
             return View(Liste);
         }
+        public ActionResult Emplacements()
+        {
+            List<LIEUX> Liste = BD.LIEUX.ToList();
+            return View(Liste);
+        }
         public ActionResult Print()
         {
             List<LIEUX> Liste = BD.LIEUX.ToList();

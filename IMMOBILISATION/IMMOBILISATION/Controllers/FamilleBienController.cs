@@ -21,6 +21,10 @@ namespace IMMOBILISATION.Controllers
             List<FAMILLES_IMMOBILISATIONS> Liste = BD.FAMILLES_IMMOBILISATIONS.ToList();
             return View(Liste);
         }
+        public ActionResult test()
+        {
+            return View();
+        }
         public ActionResult Form(string Mode, int Code)
         {
             USERS_ADMINISTRATIONS CurrentUser = BD.USERS_ADMINISTRATIONS.Where(Elt => Elt.Login == User.Identity.Name).FirstOrDefault();

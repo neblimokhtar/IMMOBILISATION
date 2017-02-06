@@ -149,6 +149,8 @@
         Supprimer</li>
     <li data-action="Fiche"><i class="fa fa-clipboard" style="margin-right: 3px;"></i>
         Fiche Technique</li>
+    <li data-action="Destruction"><i class="fa fa-gavel" style="margin-right: 3px;"></i>
+        Destruction</li>
 </ul>
 <script type="text/javascript" src="~/js/plugins/dataTables/jquery.dataTables.js"></script>
 <script type="text/javascript" src="~/js/plugins/dataTables/dataTables.bootstrap.js"></script>
@@ -160,7 +162,7 @@
     });
     $('#Tableau tbody').on('contextmenu', 'tr', function (event) {
         @if (CurrentUser.Role != "Visiteur")
-         {
+        {
         <text>
 
         if (event.button == 2) {
@@ -174,7 +176,7 @@
         }
 
         </text>
-         }
+        }
     });
     $(document).bind("mousedown", function (e) {
         if (!$(e.target).parents(".custom-menu").length > 0) {
@@ -196,6 +198,7 @@
             case "Delete": Btn_Delete_click(MyValue); break;
             case "Edit": Btn_Edit_click(MyValue); break;
             case "Fiche": Btn_Fiche_click(MyValue); break;
+            case "Destruction": Btn_Destruction_click(MyValue); break;
 
         }
         $(".custom-menu").hide(100);
@@ -205,6 +208,9 @@
     }
     function Btn_Fiche_click(MyValue) {
         window.location.href = "/Immobilisation/FicheTechnique?Code=" + MyValue;
+    }
+    function Btn_Destruction_click(MyValue) {
+        window.open("/Immobilisation/Destruction?Code=" + MyValue, '_blank');
     }
     function Btn_Delete_click(MyValue) {
         var r = confirm("Voulez vous vraiment supprimer ce tiers ?");
